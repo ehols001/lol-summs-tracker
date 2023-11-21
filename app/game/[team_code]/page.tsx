@@ -1,7 +1,18 @@
-export default function Game({ params }: { params: { team_code: string }}) {
+import { getGameByGameId } from '@/app/api/game-data/getGame';
+import { Match } from '@/db/schema';
+import { GameCard } from '@/components/GameCard';
+
+export default async function GamePage({
+    params,
+}: {
+    params: { team_code: string }
+}) {
+
+    const game = await getGameByGameId(params.team_code) as Match;
+
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
-            <p>Game {params.team_code}</p>
+            <GameCard game={game} />
         </div>
     )
 }
