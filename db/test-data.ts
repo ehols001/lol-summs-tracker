@@ -1,4 +1,4 @@
-import { Match } from "./types"
+import { Match } from "./schema"
 
 export const testGame1: Match = {
         gameId: "1234",
