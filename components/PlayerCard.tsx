@@ -11,13 +11,9 @@ export const PlayerCard = ({
         const summ1 = `/images/summoners/${player.summ1}.png`;
         const summ2 = `/images/summoners/${player.summ2}.png`;
 
-        /* function handleSummClick() {
-
-        } */
-
         return (
                 <>
-                        <div className='flex justify-evenly items-evenly w-[90%] py-2'>
+                        <div className='flex justify-evenly items-evenly w-[90%] py-3'>
                                 <Image
                                         src={championTile}
                                         alt={player.champion}
@@ -31,7 +27,6 @@ export const PlayerCard = ({
                                         width={70}
                                         height={70}
                                         className='bg-white w-1/5 h-5/6 my-auto border border-gray-600 rounded-md'
-                                        /* onClick={handleSummClick()} */
                                 />
                                 <Image
                                         src={summ2}
