@@ -5,9 +5,18 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons/faCopy';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { createGame } from '../api/game-data/createGame';
 
-export default function CreateSession() {
+export default function CreateSession({
+    searchParams,
+}: {
+    searchParams: {
+        summonerName: string,
+        tagLine: string,
+    }
+}) {
 
+    const [team_code, setTeamCode] = useState(generateRandomString({ length: 4 }));
     const [isCopied, setIsCopied] = useState(false);
 
     /**
@@ -26,8 +35,6 @@ export default function CreateSession() {
 
         return text;
     }
-
-    const team_code = generateRandomString({ length: 16 });
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
@@ -48,6 +55,8 @@ export default function CreateSession() {
                             onClick={() => {
                                 navigator.clipboard.writeText(team_code);
                                 setIsCopied(true);
+                                //Insert new game into DB after the code has been copied (TEMPORARY PLACEMENT)
+                                createGame(team_code, searchParams.summonerName, searchParams.tagLine);
                             }}
                         >
                             <FontAwesomeIcon icon={faCopy} size='lg' />
@@ -58,7 +67,7 @@ export default function CreateSession() {
                     <div className='bg-gray-300 text-gray-400 px-2 py-1 border border-gray-400 rounded-lg'>
                         Continue
                     </div>
-                :   <Link
+                    : <Link
                         className='bg-cyan-700 hover:bg-cyan-600 text-slate-100 px-2 py-1 border border-cyan-900 rounded-lg'
                         href={`/game/${team_code}`}
                     >
@@ -69,3 +78,4 @@ export default function CreateSession() {
         </div>
     )
 }
+
