@@ -4,10 +4,14 @@ const { Schema, model, models } = mongoose;
 
 export interface Player {
         summonerName: string,
+        teamId: number,
+        championImageName: string,
         champion: string,
+        summ1ImageName: string
         summ1: string,
         cooldown1: number,
         timeWhenUsed1: Date,
+        summ2ImageName: string,
         summ2: string,
         cooldown2: number,
         timeWhenUsed2: Date
@@ -28,10 +32,14 @@ const gameSchema = new Schema({
                 players: [
                         {
                                 summonerName: String,
+                                teamId: Number,
+                                championImageName: String,
                                 champion: String,
+                                summ1ImageName: String,
                                 summ1: String,
                                 cooldown1: Number,
                                 timeWhenUsed1: Date,
+                                summ2ImageName: String,
                                 summ2: String,
                                 cooldown2: Number,
                                 timeWhenUsed2: Date

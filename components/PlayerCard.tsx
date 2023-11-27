@@ -6,10 +6,9 @@ export const PlayerCard = ({
 }: {
         player: Player;
 }) => {
-
-        const championTile = `/images/champions/${player.champion}.jpg`;
-        const summ1 = `/images/summoners/${player.summ1}.png`;
-        const summ2 = `/images/summoners/${player.summ2}.png`;
+        const championTile = `https://ddragon.leagueoflegends.com/cdn/13.23.1/img/champion/${player.championImageName}`;
+        const summ1 = `https://ddragon.leagueoflegends.com/cdn/13.23.1/img/spell/${player.summ1ImageName}`;
+        const summ2 = `https://ddragon.leagueoflegends.com/cdn/13.23.1/img/spell/${player.summ2ImageName}`;
 
         return (
                 <>
