@@ -24,14 +24,19 @@ export default function Home() {
                     Create Session
                 </div>
                 :
-                <Link className='bg-slate-400 m-2 p-2 rounded-lg' href={{ pathname: '/create-session', query: { summonerName: summonerNameValue, tagLine: tagLineValue } }}>
+                <Link
+                    className='bg-gradient-to-b from-teal-900 via-teal-700 to-teal-900 m-2 p-2 border border-teal-950 rounded-lg'
+                    href={{ pathname: '/create-session', query: { summonerName: summonerNameValue, tagLine: tagLineValue } }}
+                >
                     Create Session
                 </Link>
             }
 
-            <p className='pt-12'>Already have a game code?</p>
-            <Link className='bg-slate-400 m-2 p-2 rounded-lg'
-                href='/join-session'>
+            <p className='pt-12'>Already have a code from a teammate?</p>
+            <Link
+                className='bg-gradient-to-b from-teal-900 via-teal-700 to-teal-900 m-2 p-2 border border-teal-950 rounded-lg'
+                href='/join-session'
+            >
                 Join Session
             </Link>
 

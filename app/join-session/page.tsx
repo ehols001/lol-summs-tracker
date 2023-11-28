@@ -24,8 +24,9 @@ export default function JoinSession() {
                         Submit
                     </div>
                     : <Link
-                        className='bg-cyan-700 hover:bg-cyan-600 text-slate-100 px-2 py-1 border border-cyan-900 rounded-lg'
+                        className='bg-gradient-to-b from-teal-900 via-teal-700 to-teal-900 text-slate-100 px-2 py-1 border border-teal-950 rounded-lg'
                         href={`game/${team_code}`}
+                        replace
                     >
                         Submit
                     </Link>
