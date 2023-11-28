@@ -9,7 +9,7 @@ export const GameCard = ({
 
     return (
         <div className='flex flex-col justify-center items-center w-[320px]'>
-            {enemyTeam.map((player, index) => (
+            {enemyTeam?.map((player, index) => (
                 <PlayerCard player={player} key={index} />
             ))}
         </div>

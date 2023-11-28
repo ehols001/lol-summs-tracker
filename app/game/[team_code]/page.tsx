@@ -1,6 +1,6 @@
-import { getGameByGameId } from '@/app/api/game-data/getGame';
 import { GameCard } from '@/components/GameCard';
-import { Match, Player } from '@/db/schema';
+import { Player } from '@/db/schema';
+import getEnemyTeam from '@/utils/getEnemyTeam';
 
 export default async function GamePage({
     params,
@@ -10,19 +10,7 @@ export default async function GamePage({
     };
 }) {
 
-    const game = await getGameByGameId(params.team_code) as Match;
-    //console.log('Match: ', game);
-    
-    const players: Player[] = game.gameData.players.map((player) => player);
-
-    const hostTeamId = players.find((player) => player.host === true)?.teamId;
-    //console.log(hostTeamId);
-
-    function filterEnemyTeam(player: Player) {
-        return player.teamId !== hostTeamId;
-    }
-
-    const enemyTeam = players.filter(filterEnemyTeam);
+    const enemyTeam = await getEnemyTeam(params.team_code) as Player[];
     //console.log(enemyTeam);
 
     return (
