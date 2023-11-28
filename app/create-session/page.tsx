@@ -76,7 +76,7 @@ export default function CreateSession({
                     }
                 </div>
                 {!isCopied ?
-                    <div className='bg-gray-300 text-gray-400 px-2 py-1 border border-gray-400 rounded-lg'>
+                    <div className='bg-slate-300 text-slate-400 px-2 py-1 border border-slate-400 rounded-lg'>
                         Continue
                     </div>
                     : <Link

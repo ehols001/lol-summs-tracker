@@ -11,16 +11,16 @@ export default function Home() {
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
             <input name='summonerName'
                 placeholder='Summoner Name'
-                className='bg-slate-600 m-2 p-2 rounded-lg placeholder-white'
+                className='bg-slate-600 m-2 p-2 rounded-lg placeholder-slate-400'
                 onChange={(e) => setSummonerNameValue(e.target.value)} />
 
             <input name='tagLine'
                 placeholder='Example: NA1'
-                className='bg-slate-600 m-2 p-2 rounded-lg placeholder-white'
+                className='bg-slate-600 m-2 p-2 rounded-lg placeholder-slate-400'
                 onChange={(e) => setTagLineValue(e.target.value)} />
 
             {(summonerNameValue === '' || tagLineValue === '') ?
-                <div className='bg-gray-300 text-gray-400 m-2 p-2 rounded-lg'>
+                <div className='bg-slate-300 text-slate-400 m-2 p-2 border border-slate-400 rounded-lg'>
                     Create Session
                 </div>
                 :

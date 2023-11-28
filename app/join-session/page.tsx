@@ -16,11 +16,11 @@ export default function JoinSession() {
 
                 <input name='teamCode'
                     placeholder="Game Code"
-                    className='bg-slate-600 m-2 p-2 rounded-lg placeholder-white'
+                    className='bg-slate-600 m-2 p-2 rounded-lg placeholder-slate-400'
                     onChange={(e) => setTeamCode(e.target.value)} />
 
                 {team_code === '' ?
-                    <div className='bg-gray-300 text-gray-400 px-2 py-1 border border-gray-400 rounded-lg'>
+                    <div className='bg-slate-300 text-slate-400 px-2 py-1 border border-slate-400 rounded-lg'>
                         Submit
                     </div>
                     : <Link
