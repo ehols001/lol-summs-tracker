@@ -5,9 +5,11 @@ import Connect from '@/lib/connect';
 import getMatchSession from '@/utils/getMatchSession';
 
 /**
- * Insert a provided game into mongodb
+ * Insert a game into mongodb given a gameId, summonerName, and tagLine
  * 
- * @param game full game data including gameId, gameData, and the array players
+ * @param gameId the unique team code used to access the game
+ * @param summonerName the summoner name of the player creating the game
+ * @param tagLine the tag line of the player creating the game
  */
 export async function createGame(
     gameId: string,
@@ -18,6 +20,7 @@ export async function createGame(
     await Connect();
 
     try {
+
         const game = await getMatchSession(gameId, summonerName, tagLine);
 
         const players: Player[] = game.gameData.players.map((player) => player);
