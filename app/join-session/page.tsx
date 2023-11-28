@@ -9,14 +9,14 @@ export default function JoinSession() {
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
-            <div className='flex flex-col justify-evenly items-center w-[320px] h-[175px] bg-slate-300 rounded-xl border-2 border-slate-400'>
-                <div className='text-slate-600 font-bold'>
+            <div className='flex flex-col justify-evenly items-center w-[320px] h-[175px]'>
+                <div className='text-white font-bold'>
                     <p>Enter Your Team's Game Code</p>
                 </div>
 
                 <input name='teamCode'
                     placeholder="Game Code"
-                    className='bg-slate-400 m-2 p-2 rounded-lg placeholder-white'
+                    className='bg-slate-600 m-2 p-2 rounded-lg placeholder-white'
                     onChange={(e) => setTeamCode(e.target.value)} />
 
                 {team_code === '' ?

@@ -11,8 +11,8 @@ export default async function GamePage({
 }) {
 
     const game = await getGameByGameId(params.team_code) as Match;
-
-    console.log('Match: ', game);
+    
+    //console.log('Match: ', game);
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
