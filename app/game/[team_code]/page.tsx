@@ -15,7 +15,7 @@ export default async function GamePage({
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
-            <GameCard enemyTeam={enemyTeam} />
+            {enemyTeam ? <GameCard enemyTeam={enemyTeam} /> : <p>Oops! That summoner isn't currently in a game</p>}
         </div>
     )
 }
