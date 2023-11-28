@@ -20,7 +20,7 @@ export default function JoinSession() {
                     onChange={(e) => setTeamCode(e.target.value)} />
 
                 {team_code === '' ?
-                    <div className='bg-slate-300 text-slate-400 px-2 py-1 border border-slate-400 rounded-lg'>
+                    <div className='bg-gradient-to-b from-slate-400 via-slate-200 to-slate-400 text-slate-400 px-2 py-1 border border-slate-400 rounded-lg'>
                         Submit
                     </div>
                     : <Link

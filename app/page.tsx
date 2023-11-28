@@ -20,7 +20,7 @@ export default function Home() {
                 onChange={(e) => setTagLineValue(e.target.value)} />
 
             {(summonerNameValue === '' || tagLineValue === '') ?
-                <div className='bg-slate-300 text-slate-400 m-2 p-2 border border-slate-400 rounded-lg'>
+                <div className='bg-gradient-to-b from-slate-400 via-slate-200 to-slate-400 text-slate-400 m-2 p-2 border border-slate-400 rounded-lg'>
                     Create Session
                 </div>
                 :
