@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const { Schema, model, models } = mongoose;
 
 export interface Player {
+        host: boolean,
         summonerName: string,
         teamId: number,
         championImageName: string,
@@ -31,6 +32,7 @@ const gameSchema = new Schema({
                 gameStartTime: Date,
                 players: [
                         {
+                                host: Boolean,
                                 summonerName: String,
                                 teamId: Number,
                                 championImageName: String,
