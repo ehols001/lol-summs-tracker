@@ -24,7 +24,7 @@ export default async function getMatchSession(
             champion: champion.name,
             championImageName: champion.image,
 
-            host: (summonerName === element.summonerName) ? true : false,
+            host: (summonerName.toLowerCase() === element.summonerName.toLowerCase()) ? true : false,
             summonerName: element.summonerName,
             teamId: element.teamId,
 
