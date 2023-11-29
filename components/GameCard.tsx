@@ -2,14 +2,15 @@ import { Player } from '@/db/schema';
 import { PlayerCard } from './PlayerCard';
 
 export const GameCard = ({
-    enemyTeam,
+    players,
 }: {
-    enemyTeam: Player[];
+    players: Player[];
 }) => {
 
     return (
         <div className='flex flex-col justify-center items-center w-[320px]'>
-            {enemyTeam?.map((player, index) => (
+            <div className='w-[100%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
+            {players?.map((player, index) => (
                 <PlayerCard player={player} key={index} />
             ))}
         </div>
