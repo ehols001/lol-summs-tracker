@@ -27,7 +27,10 @@ export interface Match {
 }
 
 const gameSchema = new Schema({
-        gameId: String,
+        gameId: {
+            type: String,
+            unique: true,
+        },
         gameData: {
                 gameStartTime: Date,
                 players: [
