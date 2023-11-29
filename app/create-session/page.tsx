@@ -67,8 +67,6 @@ export default function CreateSession({
                             onClick={() => {
                                 navigator.clipboard.writeText(team_code);
                                 setIsCopied(true);
-                                //Insert new game into DB after the code has been copied (TEMPORARY PLACEMENT)
-                                createGame(team_code, searchParams.summonerName, searchParams.tagLine);
                             }}
                         >
                             <FontAwesomeIcon icon={faCopy} size='lg' />
@@ -83,6 +81,7 @@ export default function CreateSession({
                         className='bg-gradient-to-b from-teal-900 via-teal-700 to-teal-900 text-slate-100 px-2 py-1 border border-teal-950 rounded-lg'
                         href={`/game/${team_code}`}
                         replace
+                        onClick={() => createGame(team_code, searchParams.summonerName, searchParams.tagLine)}
                     >
                         Continue
                     </Link>

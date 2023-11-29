@@ -15,7 +15,7 @@ export default function Home() {
                 onChange={(e) => setSummonerNameValue(e.target.value)} />
 
             <input name='tagLine'
-                placeholder='Example: NA1'
+                placeholder='Tag Line: E.g. NA1'
                 className='bg-slate-600 m-2 p-2 rounded-lg placeholder-slate-400'
                 onChange={(e) => setTagLineValue(e.target.value)} />
 
@@ -32,7 +32,7 @@ export default function Home() {
                 </Link>
             }
 
-            <p className='pt-12'>Already have a code from a teammate?</p>
+            <p className='pt-12'>Teammate sent you a code?</p>
             <Link
                 className='bg-gradient-to-b from-teal-900 via-teal-700 to-teal-900 m-2 p-2 border border-teal-950 rounded-lg'
                 href='/join-session'
