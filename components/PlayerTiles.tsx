@@ -34,22 +34,34 @@ export const PlayerTiles = ({
                 height={70}
                 className='bg-gradient-to-br from-slate-400 to-slate-600 w-1/4 border border-gray-600 rounded-md'
             />
-            <Image
-                src={summ1}
-                alt={summ1Alt}
-                width={70}
-                height={70}
-                className={`${summ1Active ? 'opacity-50' : ''} bg-gradient-to-br from-slate-600 to-black w-1/5 h-5/6 my-auto border border-gray-600 rounded-md`}
-                onClick={() => handleSummClick(1)}
-            />
-            <Image
-                src={summ2}
-                alt={summ2Alt}
-                width={70}
-                height={70}
-                className={`${summ2Active ? 'opacity-50' : ''} bg-gradient-to-br from-slate-400 to-slate-600 w-1/5 h-5/6 my-auto border border-gray-600 rounded-md`}
-                onClick={() => handleSummClick(2)}
-            />
+            <div className='relative bg-gradient-to-br from-slate-400 to-slate-600 w-1/5 h-5/6 my-auto border border-gray-600 rounded-md'>
+                <Image
+                    src={summ1}
+                    alt={summ1Alt}
+                    width={70}
+                    height={70}
+                    className='rounded-md'
+                    onClick={() => handleSummClick(1)}
+                />
+                <div
+                    className={`${summ1Active ? '' : 'hidden'} absolute top-0 left-0 bg-black opacity-70 w-[100%] h-[100%] rounded-md`}
+                    onClick={() => handleSummClick(1)}
+                ></div>
+            </div>
+            <div className='relative bg-gradient-to-br from-slate-400 to-slate-600 w-1/5 h-5/6 my-auto border border-gray-600 rounded-md'>
+                <Image
+                    src={summ2}
+                    alt={summ2Alt}
+                    width={70}
+                    height={70}
+                    className='rounded-md'
+                    onClick={() => handleSummClick(2)}
+                />
+                <div
+                    className={`${summ2Active ? '' : 'hidden'} absolute top-0 left-0 bg-black opacity-70 w-[100%] h-[100%] rounded-md`}
+                    onClick={() => handleSummClick(2)}
+                ></div>
+            </div>
         </div>
     )
 }
