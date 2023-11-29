@@ -13,7 +13,7 @@ export const PlayerCard = ({
 
     return (
         <>
-            <div className='flex justify-evenly w-[90%] py-3'>
+            <div className='flex justify-evenly w-[100%] py-3'>
                 <Image
                     src={championTile}
                     alt={player.champion}
