@@ -1,5 +1,5 @@
 import { Player } from '@/db/schema';
-import Image from 'next/image';
+import { PlayerTiles } from './PlayerTiles';
 
 export const PlayerCard = ({
     player,
@@ -13,29 +13,7 @@ export const PlayerCard = ({
 
     return (
         <>
-            <div className='flex justify-evenly w-[100%] py-3'>
-                <Image
-                    src={championTile}
-                    alt={player.champion}
-                    width={70}
-                    height={70}
-                    className='bg-white w-1/4 border border-gray-600 rounded-md'
-                />
-                <Image
-                    src={summ1}
-                    alt={player.summ1}
-                    width={70}
-                    height={70}
-                    className='bg-white w-1/5 h-5/6 my-auto border border-gray-600 rounded-md'
-                />
-                <Image
-                    src={summ2}
-                    alt={player.summ2}
-                    width={70}
-                    height={70}
-                    className='bg-white w-1/5 h-5/6 my-auto border border-gray-600 rounded-md'
-                />
-            </div>
+            <PlayerTiles championTile={championTile} summ1={summ1} summ2={summ2} />
             <div className='last:hidden w-[90%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
         </>
     )
