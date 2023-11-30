@@ -17,7 +17,7 @@ export default async function GamePage({
 
     return (
         <div>
-            {game ? <GameCard players={team1} /> : <Loading />}
+            {game ? <GameCard players={team1} gameId={params.team_code} /> : <Loading />}
         </div>
     )
 }
