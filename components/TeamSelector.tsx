@@ -1,20 +1,25 @@
-'use client'
+'use client';
 
-import { Suspense, useState } from "react"
-import Loading from "./loading"
+import Loading from '@/app/game/[team_code]/loading';
+import { Player } from '@/db/schema';
+import React, { Suspense, useState } from 'react'
+import { GameCard } from './GameCard';
 
-export default function GameLayout({
+export const TeamSelector = ({
     team1,
     team2,
-}: {
-    team1: React.ReactNode;
-    team2: React.ReactNode;
-}) {
+    team_code
+}:  {
+    team1: Player[];
+    team2: Player[];
+    team_code: string;
+}
+) => {
 
     const [teamDisplay, setTeamDisplay] = useState(1);
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-24">
+            <div className="flex min-h-screen flex-col items-center justify-center p-24">
             <div className='flex w-[265px]'>
                 <button
                     className={teamDisplay === 1 ? 'w-1/2 p-2 text-slate-300 border-t border-gray-400 rounded-t-xl' : 'w-1/2 p-2 text-slate-500'}
@@ -30,8 +35,10 @@ export default function GameLayout({
                 </button>
             </div>
             <Suspense fallback={<Loading />}>
-                {teamDisplay === 1 ? team1 : team2}
+                {teamDisplay === 1 ? <GameCard players={team1} gameId={team_code} /> : <GameCard players={team2} gameId={team_code} />}
             </Suspense>
         </div>
-    )
+  )
 }
+
+export default TeamSelector

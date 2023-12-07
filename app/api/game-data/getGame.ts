@@ -1,8 +1,8 @@
-import Game from '@/db/schema';
+'use server'
+import Game, { Match } from '@/db/schema';
 import Connect from '@/lib/connect';
 import { cache } from 'react';
 
-export const revalidate = 3600;
 
 /**
  * Find a specific game given the gameId 
@@ -11,18 +11,13 @@ export const revalidate = 3600;
  * 
  * @returns full game data including gameId, gameData, and the players array
  */
-export const getGameByGameId = cache(async (gameId: string) => {
+export const getGameByGameId = async (gameId: string): Promise<Match> => {
         await Connect();
 
-        try {
-                const game = await Game.findOne({ gameId: gameId });
-                //console.log(`Successfully found game with gameId: ${gameId}`, game);
+        const game: Match = await Game.findOne({ gameId: gameId }) as Match;
 
-                return game;
-        } catch(error) {
-                console.log(`Failed to find game with gameId: ${gameId}`, error);
-        }
-});
+        return game;
+};
 
 /**
  * Find a specific game given the summonerName 

@@ -1,6 +1,6 @@
 'use server'
 
-import Game from '@/db/schema';
+import Game, { Player } from '@/db/schema';
 import Connect from '@/lib/connect';
 
 /**
@@ -20,18 +20,19 @@ export async function updateGame(
         try {
                 const game = await Game.findOne({ gameId: gameId });
 
-                const player = game.gameData.players[playerIndex];
+                const player = game?.gameData?.players[playerIndex] as Player;
                 if(summNum === 1) {
                         player.timeWhenUsed1 = new Date;
-                        await game.save();
-                        console.log(`Successfully updated ${player.champion}'s ${player.summ1} in game ${gameId} to time used: ${player.timeWhenUsed1.getTime()}`);
+                        await game?.save();
+                        console.log(`Successfully updated ${player.champion}'s ${player.summ1} in game ${gameId} to time used: ${player.timeWhenUsed1.toTimeString()})`);
                 } else if(summNum === 2) {
                         player.timeWhenUsed2 = new Date;
-                        await game.save();
-                        console.log(`Successfully updated ${player.champion}'s ${player.summ2} in game ${gameId} to time used: ${player.timeWhenUsed2.getTime()}`);
+                        await game?.save();
+                        console.log(`Successfully updated ${player.champion}'s ${player.summ2} in game ${gameId} to time used: ${player.timeWhenUsed2.toTimeString()})`);
                 }
 
         } catch(error) {
                 console.log(`Failed to update game with gameId: ${gameId}`, error);
         }
 }
+

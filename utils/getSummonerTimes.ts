@@ -24,7 +24,7 @@ export default async function getSummonerTimes(
     const currentTime = new Date().getTime();
 
     const cd1 = player.cooldown1 * 1000;
-    const timeWhenUsed1 = player?.timeWhenUsed1.getTime();
+    const timeWhenUsed1 = player?.timeWhenUsed1?.getTime();
 
     // The amount of time its been since summ1 was used
     const timePassedOn1 = currentTime - timeWhenUsed1;
@@ -33,7 +33,7 @@ export default async function getSummonerTimes(
     const timeLeftOn1 = cd1 - timePassedOn1;
 
     const cd2 = player.cooldown2 * 1000;
-    const timeWhenUsed2 = player?.timeWhenUsed2.getTime();
+    const timeWhenUsed2 = player?.timeWhenUsed2?.getTime();
 
     // The amount of time its been since summ2 was used
     const timePassedOn2 = currentTime - timeWhenUsed2;

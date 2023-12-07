@@ -26,7 +26,7 @@ export interface Match {
         }
 }
 
-const gameSchema = new Schema({
+const gameSchema = new Schema<Match>({
         gameId: {
             type: String,
             unique: true,
@@ -53,5 +53,5 @@ const gameSchema = new Schema({
         }
 });
 
-const Game = models.Game || mongoose.model('Game', gameSchema);
+const Game = mongoose.models.Game || mongoose.model<Match>('Game', gameSchema);
 export default Game;

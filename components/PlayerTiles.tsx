@@ -1,7 +1,6 @@
 'use client'
 
 import { updateGame } from '@/app/api/game-data/updateGame';
-import getSummonerTimes from '@/utils/getSummonerTimes';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -22,13 +21,17 @@ const formatTime = (time: number) => {
 export const PlayerTiles = ({
     championTile,
     summ1,
+    cooldown1,
     summ2,
+    cooldown2,
     playerIndex,
     gameId,
 }: {
     championTile: string;
     summ1: string;
+    cooldown1: number;
     summ2: string;
+    cooldown2: number;
     playerIndex: number;
     gameId: string;
 }) => {
@@ -41,22 +44,6 @@ export const PlayerTiles = ({
     const championTileAlt = championTile.slice(championTile.lastIndexOf('/') + 1, championTile.lastIndexOf('.'));
     const summ1Alt = summ1.slice(summ1.lastIndexOf('/') + 1, summ1.lastIndexOf('.'));
     const summ2Alt = summ2.slice(summ2.lastIndexOf('/') + 1, summ2.lastIndexOf('.'));
-    //console.log(championTileAlt + " " + summ1Alt + " " + summ2Alt);
-    
-    // Gets the summoner spell cooldowns and sets the remaining time left on them
-    useEffect(() => {
-        const fetchSummonerTimes = async () => {
-            try {
-                const response = await getSummonerTimes(gameId, playerIndex);
-                setTimeRemainingOnSumm1(response.timeLeftOn1);
-                setTimeRemainingOnSumm1(response.timeLeftOn2);
-            } catch(error) {
-                console.error('Error fetching remaining summoner times:', error);
-            }
-        };
-
-        fetchSummonerTimes();
-    }, [gameId, playerIndex]);
 
     // Update the countdown timers every second
     useEffect(() => {
@@ -79,14 +66,16 @@ export const PlayerTiles = ({
     }, [summ1Active, summ2Active, timeRemainingOnSumm1, timeRemainingOnSumm2]);
 
     // Sets whichever summ that was clicked to active and updates the time it was clicked in the db
-    function handleSummClick(summNum: number) {
+    async function handleSummClick(summNum: number) {
         if(summNum === 1 && !summ1Active) {
-            setSumm1Active(!summ1Active);
-            updateGame(gameId, playerIndex, summNum);
+            setTimeRemainingOnSumm1(cooldown1 * 1000);
+            setSumm1Active(true);
+            await updateGame(gameId, playerIndex, summNum);
         }
         else if(summNum === 2 && !summ2Active) {
-            setSumm2Active(!summ2Active);
-            updateGame(gameId, playerIndex, summNum);
+            setTimeRemainingOnSumm2(cooldown2 * 1000);
+            setSumm2Active(true);
+            await updateGame(gameId, playerIndex, summNum);
         }
     }
 
