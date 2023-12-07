@@ -1,6 +1,6 @@
 import { getGameByGameId } from '@/app/api/game-data/getGame';
 import { Match, Player } from '@/db/schema';
-import TeamSelector from "@/components/TeamSelector";
+import { TeamSelector } from "@/components/TeamSelector";
 import Link from 'next/link';
 
 export default async function GamePage({
