@@ -17,7 +17,15 @@ export const PlayerCard = ({
 
     return (
         <>
-            <PlayerTiles championTile={championTile} summ1={summ1} summ2={summ2} playerIndex={playerIndex} gameId={gameId} cooldown1={player.cooldown1} cooldown2={player.cooldown2}/>
+            <PlayerTiles
+                championTile={championTile}
+                summ1={summ1}
+                summ2={summ2}
+                playerIndex={player.teamId === 100 ? playerIndex : playerIndex + 5}
+                gameId={gameId}
+                cooldown1={player.cooldown1}
+                cooldown2={player.cooldown2}
+            />
             <div className='last:hidden w-[90%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
         </>
     )
