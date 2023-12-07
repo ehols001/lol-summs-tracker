@@ -48,16 +48,16 @@ export const PlayerTiles = ({
     // Update the countdown timers every second
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if(timeRemainingOnSumm1 <= 0) {
+            if (timeRemainingOnSumm1 <= 0) {
                 setSumm1Active(false);
             }
-            if(timeRemainingOnSumm2 <= 0) {
+            if (timeRemainingOnSumm2 <= 0) {
                 setSumm2Active(false);
             }
-            if(summ1Active && timeRemainingOnSumm1 > 0) {
+            if (summ1Active && timeRemainingOnSumm1 > 0) {
                 setTimeRemainingOnSumm1((previous) => previous - 1000);
             }
-            if(summ2Active && timeRemainingOnSumm2 > 0) {
+            if (summ2Active && timeRemainingOnSumm2 > 0) {
                 setTimeRemainingOnSumm2((previous) => previous - 1000);
             }
         }, 1000);
@@ -67,12 +67,12 @@ export const PlayerTiles = ({
 
     // Sets whichever summ that was clicked to active and updates the time it was clicked in the db
     async function handleSummClick(summNum: number) {
-        if(summNum === 1 && !summ1Active) {
+        if (summNum === 1 && !summ1Active) {
             setTimeRemainingOnSumm1(cooldown1 * 1000);
             setSumm1Active(true);
             await updateGame(gameId, playerIndex, summNum);
         }
-        else if(summNum === 2 && !summ2Active) {
+        else if (summNum === 2 && !summ2Active) {
             setTimeRemainingOnSumm2(cooldown2 * 1000);
             setSumm2Active(true);
             await updateGame(gameId, playerIndex, summNum);
@@ -97,12 +97,13 @@ export const PlayerTiles = ({
                     className='rounded-md'
                     onClick={() => handleSummClick(1)}
                 />
-                <div
-                    className={`${summ1Active ? '' : 'hidden'} absolute top-0 left-0 bg-black opacity-70 w-[100%] h-[100%] rounded-md`}
-                >
-                    <span className='text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                        {formatTime(timeRemainingOnSumm1)}
-                    </span>
+                <div className={`${summ1Active ? '' : 'hidden'}`}>
+                    <div className='absolute top-0 left-0 bg-black opacity-70 w-[100%] h-[100%] rounded-md'></div>
+                    <div className='absolute top-0 left-0 w-[100%] h-[100%] rounded-md'>
+                        <span className='text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                            {formatTime(timeRemainingOnSumm1)}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div className='relative bg-gradient-to-br from-slate-400 to-slate-600 w-1/5 h-5/6 my-auto border border-gray-600 rounded-md'>
@@ -114,12 +115,13 @@ export const PlayerTiles = ({
                     className='rounded-md'
                     onClick={() => handleSummClick(2)}
                 />
-                <div
-                    className={`${summ2Active ? '' : 'hidden'} absolute top-0 left-0 bg-black opacity-70 w-[100%] h-[100%] rounded-md`}
-                >
-                    <span className='text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                        {formatTime(timeRemainingOnSumm2)}
-                    </span>
+                <div className={`${summ2Active ? '' : 'hidden'}`}>
+                    <div className='absolute top-0 left-0 bg-black opacity-70 w-[100%] h-[100%] rounded-md'></div>
+                    <div className='absolute top-0 left-0 w-[100%] h-[100%] rounded-md'>
+                        <span className='text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                            {formatTime(timeRemainingOnSumm2)}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
