@@ -1,6 +1,6 @@
 export const getActiveGame = async (userName: string, tagLine: string) => {
     const riotHeader = new Headers();
-    riotHeader.append('X-Riot-Token', process.env.NEXT_PUBLIC_RIOT_API_KEY!);
+    riotHeader.append('X-Riot-Token', process.env.RIOT_API_KEY!);
 
     const res = await fetch(`https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${userName}/${tagLine}`, {
         headers: riotHeader
