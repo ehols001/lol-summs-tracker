@@ -16,23 +16,17 @@ const Divider = () => {
 
 export default function LoadingSkeleton() {
     return (
-        <div className='flex min-h-screen flex-col items-center justify-center p-24'>
-            <div className='flex items-center justify-center w-[265px]'>
-                <div className="w-1/2 p-2 text-slate-300 text-center border-t border-gray-400 rounded-t-xl">Team 1</div>
-                <div className="w-1/2 p-2 text-slate-500 text-center">Team 2</div>
-            </div>
-            <div className='flex flex-col justify-center items-center w-[320px] h-[500px]'>
-                <div className='w-[100%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
-                <Placeholders />
-                <Divider />
-                <Placeholders />
-                <Divider />
-                <Placeholders />
-                <Divider />
-                <Placeholders />
-                <Divider />
-                <Placeholders />
-            </div>
+        <div className='flex flex-col justify-center items-center w-[320px] h-[500px]'>
+            <div className='w-[100%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
+            <Placeholders />
+            <Divider />
+            <Placeholders />
+            <Divider />
+            <Placeholders />
+            <Divider />
+            <Placeholders />
+            <Divider />
+            <Placeholders />
         </div>
     )
 }
