@@ -21,7 +21,7 @@ export const PlayerCard = ({
                 championTile={championTile}
                 summ1={summ1}
                 summ2={summ2}
-                playerIndex={player.teamId === 100 ? playerIndex : playerIndex + 5}
+                playerIndex={playerIndex}
                 gameId={gameId}
                 cooldown1={player.cooldown1}
                 cooldown2={player.cooldown2}
