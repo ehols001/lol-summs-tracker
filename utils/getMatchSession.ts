@@ -4,7 +4,7 @@ import { getSummonerMapping } from '@/app/api/league-data/getSummonerMapping';
 import { Match, Player } from '@/db/schema';
 
 export default async function getMatchSession(
-    team_code: string,
+    //team_code: string,
     summonerName: string,
     tagLine: string,
 ) {
@@ -41,7 +41,7 @@ export default async function getMatchSession(
     });
 
     var game = { 
-        gameId: team_code, 
+        //gameId: team_code, 
         gameData: {
             gameStartTime: activeGame.gameStartTime,
             players: players
