@@ -1,27 +1,20 @@
 'use server'
 
-import Game, { Player } from '@/db/schema';
+import Game, { Match, Player } from '@/db/schema';
 import Connect from '@/lib/connect';
-import getMatchSession from '@/utils/getMatchSession';
 
 /**
- * Insert a game into mongodb given a gameId, summonerName, and tagLine
+ * Insert a game into mongodb given a game
  * 
- * @param gameId the unique team code used to access the game
- * @param summonerName the summoner name of the player creating the game
- * @param tagLine the tag line of the player creating the game
+ * @param game the game to be inserted into mongodb
  */
 export async function createGame(
-    gameId: string,
-    summonerName: string,
-    tagLine: string,
+    game: Match,
 ) {
     
     await Connect();
 
     try {
-
-        const game = await getMatchSession(gameId, summonerName, tagLine);
 
         const players: Player[] = game.gameData.players.map((player) => player);
 
