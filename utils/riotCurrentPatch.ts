@@ -1,0 +1,1 @@
+export const riotCurrentPatch = '13.14.1';

@@ -1,6 +1,8 @@
+import { riotCurrentPatch } from "@/utils/riotCurrentPatch";
+
 export const getSummonerMapping = async () => {
 
-    const summonerResponse = await fetch('https://ddragon.leagueoflegends.com/cdn/13.23.1/data/en_US/summoner.json');
+    const summonerResponse = await fetch(`https://ddragon.leagueoflegends.com/cdn/${riotCurrentPatch}/data/en_US/summoner.json`);
 
     var summonerData = await summonerResponse.json();
     var result: { [key: number]: any } = {};

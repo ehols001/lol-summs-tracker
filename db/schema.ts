@@ -11,13 +11,14 @@ export interface Player {
     summ2ImageName: string,
     summ2: string,
     cooldown2: number,
-    timeWhenUsed2: Date
+    timeWhenUsed2: Date,
+    hasCdRune: boolean
 }
 
 export interface Match {
     gameId: string,
     gameData: {
-        gameStartTime: Date,
+        gameStartTime: number,
         players: Player[]
     }
 }

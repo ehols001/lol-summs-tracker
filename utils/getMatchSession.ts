@@ -13,6 +13,7 @@ export default async function getMatchSession(
     var summonerMapping = await getSummonerMapping();
     var championMapping = await getChampionMapping();
 
+    var cdRuneId = 8347; // Cosmic Insight perkId
     var players = [] as Player[];
     
     activeGame.participants.forEach((element:any) => {
@@ -34,7 +35,9 @@ export default async function getMatchSession(
 
             summ2: summ2.name,
             summ2ImageName: summ2.image,
-            cooldown2: summ2.cooldown
+            cooldown2: summ2.cooldown,
+
+            hasCdRune: element.perks.perkIds.includes(cdRuneId) ? true : false
         } as Player;
 
         players.push(player);

@@ -26,6 +26,7 @@ export const PlayerTiles = ({
     cooldown2,
     playerIndex,
     gameId,
+    gameClock,
 }: {
     championTile: string;
     summ1: string;
@@ -34,6 +35,7 @@ export const PlayerTiles = ({
     cooldown2: number;
     playerIndex: number;
     gameId: string;
+    gameClock: number;
 }) => {
 
     const [summ1Active, setSumm1Active] = useState(false);
@@ -44,6 +46,16 @@ export const PlayerTiles = ({
     const championTileAlt = championTile.slice(championTile.lastIndexOf('/') + 1, championTile.lastIndexOf('.'));
     const summ1Alt = summ1.slice(summ1.lastIndexOf('/') + 1, summ1.lastIndexOf('.'));
     const summ2Alt = summ2.slice(summ2.lastIndexOf('/') + 1, summ2.lastIndexOf('.'));
+
+    // Adjust Teleport cooldown if the game is past the 10 minute mark
+    if(summ1Alt === 'SummonerTeleport' && gameClock >= 10) {
+        cooldown1 = cooldown1 - 30;
+    }
+
+    // Adjust Teleport cooldown if the game is past the 10 minute mark
+    if(summ2Alt === 'SummonerTeleport' && gameClock >= 10) {
+        cooldown2 = cooldown2 - 30;
+    }
 
     // Update the countdown timers every second
     useEffect(() => {
