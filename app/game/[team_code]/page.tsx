@@ -9,13 +9,12 @@ export default async function GamePage({
     params: { team_code: string }
 }) {
 
-    const response = JSON.parse(JSON.stringify(await getGameByGameId(params.team_code))) as Match;
-    let players = response?.gameData?.players;
+    const game = JSON.parse(JSON.stringify(await getGameByGameId(params.team_code))) as Match;
 
     return (
         <>
-            {players
-                ?   <GameCard players={players} gameId={params.team_code} />
+            {game
+                ?   <GameCard game={game} />
                 :   <JoinError />
             }
         </>

@@ -1,13 +1,13 @@
 'use server'
 
 import { getGameByGameId } from "@/app/api/game-data/getGame";
-import { Match, Player } from "@/db/schema";
+import { Player } from "@/db/schema";
 
 export default async function getEnemyTeam(team_code: string) {
-    const game = await getGameByGameId(team_code) as Match;
+    const game = await getGameByGameId(team_code);
     //console.log('Match: ', game);
     
-    const players: Player[] = game?.gameData.players.map((player) => player);
+    const players: Player[] = game?.gameData.players.map((player: Player) => player);
 
     const hostTeamId = players?.find((player) => player.host === true)?.teamId;
     //console.log(hostTeamId);

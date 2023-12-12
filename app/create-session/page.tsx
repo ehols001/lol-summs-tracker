@@ -1,7 +1,6 @@
 import { TeamCodeBox } from '@/components/TeamCodeBox';
 import getMatchSession from '@/utils/getMatchSession';
 import { getAllGames } from '../api/game-data/getGames';
-import { Match } from '@/db/schema';
 
 /**
 * Generates a random sequence of alphanumeric characters of variable length
@@ -29,11 +28,11 @@ async function handleGameCode() {
 
     var gameId = generateRandomString({ length: 4 });
 
-    const games = await getAllGames() as Match[];
+    const games = await getAllGames();
     const gameIds = games?.map((game) => game.gameId);
 
-    while(gameIds.includes(gameId)) {
-        //console.log(gameId);
+    while(gameIds?.includes(gameId)) {
+        console.log(gameId);
         gameId = gameIds.includes(gameId) ? generateRandomString({ length: 4 }) : gameId;
     }
 

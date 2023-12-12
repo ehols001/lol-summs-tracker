@@ -1,9 +1,6 @@
 'use server'
 
-import Game, { Match } from '@/db/schema';
-import Connect from '@/lib/connect';
-import { cache } from 'react';
-
+import clientPromise from '@/lib/mongodb';
 
 /**
  * Find a specific game given the gameId 
@@ -12,13 +9,18 @@ import { cache } from 'react';
  * 
  * @returns full game data including gameId, gameData, and the players array
  */
-export const getGameByGameId = async (gameId: string): Promise<Match> => {
-    await Connect();
+export async function getGameByGameId(gameId: string) {
+    try {
+        const client = await clientPromise;
+        const db = client.db('GameDB');
 
-    const game = await Game.findOne({ gameId: gameId }) as Match;
-    //console.log(`Successfully found a game with the gameId: ${gameId}`, game);
-    
-    return game;
+        const game = await db.collection('games').findOne({ gameId: gameId });
+        //console.log(`Successfully found game with the gameId: ${gameId}`, game);
+
+        return game;
+    } catch (error) {
+        console.log(`Failed to find game with the gameId: ${gameId}`, error);
+    }
 };
 
 /**
@@ -28,15 +30,16 @@ export const getGameByGameId = async (gameId: string): Promise<Match> => {
  * 
  * @returns full game data including gameId, gameData, and the players array
  */
-export const getGameBySummonerName = cache(async (summonerName: string) => {
-    await Connect();
-
+export async function getGameBySummonerName(summonerName: string) {
     try {
-        const game = await Game.findOne({ 'gameData.players.summonerName': summonerName });
-        console.log(`Successfully found a game with the summoner name: ${summonerName}`, game);
+        const client = await clientPromise;
+        const db = client.db('GameDB');
+
+        const game = await db.collection('games').findOne({ 'gameData.players.summonerName': summonerName });
+        //console.log(`Successfully found game with the summoner name: ${summonerName}`, game);
 
         return game;
     } catch (error) {
-        console.log(`Failed to find a game with the summoner name: ${summonerName}`, error);
+        console.log(`Failed to find game with the summoner name: ${summonerName}`, error);
     }
-});
+};

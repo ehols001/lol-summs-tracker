@@ -1,23 +1,20 @@
-import Game from '@/db/schema';
-import Connect from '@/lib/connect';
-import { cache } from 'react';
-
-export const revalidate = 3600;
+import clientPromise from '@/lib/mongodb';
 
 /**
  * Find all games
  * 
  * @returns full game data including gameId, gameData, and the players array for all games
  */
-export const getAllGames = cache(async () => {
-        await Connect();
+export async function getAllGames() {
+    try {
+        const client = await clientPromise;
+        const db = client.db('GameDB');
 
-        try {
-                const games = await Game.find();
-                console.log('Successfully found all games', games);
+        const games = await db.collection('games').find({}).toArray();
+        //console.log('Successfully found all games', games);
 
-                return games;
-        } catch(error) {
-                console.log('Failed to find all games', error);
-        }
-});
+        return games;
+    } catch (error) {
+        console.log('Failed to find all games', error);
+    }
+};

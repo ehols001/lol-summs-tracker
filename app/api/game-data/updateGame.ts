@@ -1,7 +1,6 @@
 'use server'
 
-import Game, { Player } from '@/db/schema';
-import Connect from '@/lib/connect';
+import clientPromise from '@/lib/mongodb';
 
 /**
  * Update a specific game given the gameId (will primarily be used to updated the timestamp of when summoner spells were used)
@@ -11,28 +10,34 @@ import Connect from '@/lib/connect';
  * @param summNum the number summoner spell that was used (either 1 slot or 2 slot)
  */
 export async function updateGame(
-        gameId: string,
-        playerIndex: number,
-        summNum: number,
+    gameId: string,
+    playerIndex: number,
+    summNum: number,
 ) {
-        await Connect();
+    try {
+        const client = await clientPromise;
+        const db = client.db('GameDB');
 
-        try {
-                const game = await Game.findOne({ gameId: gameId });
+        const summToUpdate = summNum === 1 ? 'timeWhenUsed1' : 'timeWhenUsed2';
 
-                const player = game?.gameData?.players[playerIndex] as Player;
-                if(summNum === 1) {
-                        player.timeWhenUsed1 = new Date;
-                        await game?.save();
-                        console.log(`Successfully updated ${player.champion}'s ${player.summ1} in game ${gameId} to time used: ${player.timeWhenUsed1.toTimeString()})`);
-                } else if(summNum === 2) {
-                        player.timeWhenUsed2 = new Date;
-                        await game?.save();
-                        console.log(`Successfully updated ${player.champion}'s ${player.summ2} in game ${gameId} to time used: ${player.timeWhenUsed2.toTimeString()})`);
+        await db.collection('games').updateOne(
+            { gameId: gameId },
+            {
+                $set: {
+                    [`gameData.players.${playerIndex}.${summToUpdate}`]: new Date,
                 }
+            }
+        );
 
-        } catch(error) {
-                console.log(`Failed to update game with gameId: ${gameId}`, error);
-        }
+        const updatedGame = await db.collection('games').findOne({ gameId: gameId });
+        const updatedPlayer = updatedGame?.gameData.players[playerIndex];
+        
+        summNum === 1
+            ? console.log(`Successfully updated ${updatedPlayer.champion}'s ${updatedPlayer.summ1} in game ${gameId} to time used: ${updatedPlayer.timeWhenUsed1.toTimeString()}`)
+            : console.log(`Successfully updated ${updatedPlayer.champion}'s ${updatedPlayer.summ2} in game ${gameId} to time used: ${updatedPlayer.timeWhenUsed2.toTimeString()}`)
+
+    } catch (error) {
+        console.log(`Failed to update game with gameId: ${gameId}`, error);
+    }
 }
 

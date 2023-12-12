@@ -1,7 +1,6 @@
 'use server'
 
 import { getGameByGameId } from "@/app/api/game-data/getGame";
-import { Match } from "@/db/schema";
 
 /**
  * Function to get the remaining time left on both summoner spells for the given player
@@ -16,7 +15,7 @@ export default async function getSummonerTimes(
     playerIndex: number
 ) {
     
-    const game = await getGameByGameId(gameId) as Match;
+    const game = await getGameByGameId(gameId);
     //console.log('Match: ', game);
     
     const player = game?.gameData.players[playerIndex];
