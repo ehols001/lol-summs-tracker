@@ -1,6 +1,7 @@
 import { getGameByGameId } from '@/app/api/game-data/getGame';
 import { Match } from '@/db/schema';
 import { GameCard } from '@/components/GameCard';
+import JoinError from './join-error';
 
 export default async function GamePage({
     params
@@ -12,8 +13,11 @@ export default async function GamePage({
     let players = response?.gameData?.players;
 
     return (
-        <GameCard players={players} gameId={params.team_code} />
+        <>
+            {players
+                ?   <GameCard players={players} gameId={params.team_code} />
+                :   <JoinError />
+            }
+        </>
     )
-
-
 }

@@ -26,7 +26,7 @@ export const PlayerCard = ({
                 cooldown1={player.cooldown1}
                 cooldown2={player.cooldown2}
             />
-            <div className='last:hidden w-[90%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
+            <div className='last:hidden w-[100%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
         </>
     )
 }

@@ -1,4 +1,5 @@
 'use server'
+
 import Game, { Match } from '@/db/schema';
 import Connect from '@/lib/connect';
 import { cache } from 'react';
@@ -12,11 +13,12 @@ import { cache } from 'react';
  * @returns full game data including gameId, gameData, and the players array
  */
 export const getGameByGameId = async (gameId: string): Promise<Match> => {
-        await Connect();
+    await Connect();
 
-        const game: Match = await Game.findOne({ gameId: gameId }) as Match;
-
-        return game;
+    const game = await Game.findOne({ gameId: gameId }) as Match;
+    //console.log(`Successfully found a game with the gameId: ${gameId}`, game);
+    
+    return game;
 };
 
 /**
@@ -30,11 +32,11 @@ export const getGameBySummonerName = cache(async (summonerName: string) => {
     await Connect();
 
     try {
-            const game = await Game.findOne({ 'gameData.players.summonerName': summonerName });
-            console.log(`Successfully found a game with the summoner name: ${summonerName}`, game);
+        const game = await Game.findOne({ 'gameData.players.summonerName': summonerName });
+        console.log(`Successfully found a game with the summoner name: ${summonerName}`, game);
 
-            return game;
-    } catch(error) {
-            console.log(`Failed to find a game with the summoner name: ${summonerName}`, error);
+        return game;
+    } catch (error) {
+        console.log(`Failed to find a game with the summoner name: ${summonerName}`, error);
     }
 });
