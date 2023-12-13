@@ -1,0 +1,1 @@
+export const riotCurrentVersion = '13.24.1';
