@@ -1,6 +1,8 @@
-import { riotCurrentVersion } from '@/utils/getRiotCurrentVersion';
+import { getLatestVersion } from './getLatestVersion';
 
 export const getChampionMapping = async () => {
+
+    const riotCurrentVersion = await getLatestVersion();
 
     const championResponse = await fetch(`https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/data/en_US/champion.json`);
 
