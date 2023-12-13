@@ -1,25 +1,27 @@
 import { Player } from '@/db/schema';
 import { PlayerTiles } from './PlayerTiles';
-import { riotCurrentPatch } from '@/utils/riotCurrentPatch';
 import { cooldownAdjuster } from '@/utils/cooldownAdjuster';
+import { riotCurrentVersion } from '@/utils/getRiotCurrentVersion';
 
 export const PlayerCard = ({
     player,
     playerIndex,
     gameId,
     gameClock,
+    gameMode,
 }: {
     player: Player;
     playerIndex: number;
     gameId: string;
     gameClock: number;
+    gameMode: string;
 }) => {
 
-    const championTile = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentPatch}/img/champion/${player.championImageName}`;
-    const summ1 = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentPatch}/img/spell/${player.summ1ImageName}`;
-    const summ2 = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentPatch}/img/spell/${player.summ2ImageName}`;
+    const championTile = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/img/champion/${player.championImageName}`;
+    const summ1 = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/img/spell/${player.summ1ImageName}`;
+    const summ2 = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/img/spell/${player.summ2ImageName}`;
 
-    const { adjustedCd1, adjustedCd2 } = cooldownAdjuster(player, gameClock);
+    const { adjustedCd1, adjustedCd2 } = cooldownAdjuster(player, gameClock, gameMode);
 
     return (
         <>

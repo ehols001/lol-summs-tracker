@@ -19,6 +19,7 @@ export async function createGame(
 
         const createdGame = await db.collection('games').insertOne({
             gameId: game.gameId,
+            gameMode: game.gameMode,
             gameData: {
                 gameStartTime: game.gameData.gameStartTime,
                 players: players

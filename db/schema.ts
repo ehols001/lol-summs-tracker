@@ -17,6 +17,7 @@ export interface Player {
 
 export interface Match {
     gameId: string,
+    gameMode: string,
     gameData: {
         gameStartTime: number,
         players: Player[]

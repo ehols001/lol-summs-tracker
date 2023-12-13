@@ -3,7 +3,18 @@ import { Player } from "@/db/schema";
 export const cooldownAdjuster = (
     player: Player,
     gameClock: number,
+    gameMode: string,
 ) => {
+
+    // 70 haste applied to cooldowns in ARAMs
+    const aramHaste = gameMode === 'ARAM' ? 70 : 0;
+    // 18 haste given to summoner spells from Cosmic Insight rune
+    const cdRuneHaste = player.hasCdRune ? 18 : 0;
+
+    const totalHaste = aramHaste + cdRuneHaste;
+
+    // Formula Riot uses as a multiplier for cooldowns affected by haste
+    const cdHasteMultiplier = 100 / (100 + totalHaste);
 
     let adjustedCd1 = player.cooldown1;
     let adjustedCd2 = player.cooldown2;
@@ -18,13 +29,8 @@ export const cooldownAdjuster = (
         adjustedCd2 = adjustedCd2 - 30;
     }
 
-    // Summoner spell haste given from Cosmic Insight rune
-    const cdRuneHaste = 18;
-    // Formula Riot uses as a multiplier for cooldowns affected by haste
-    const cdHasteMultiplier = 100 / (100 + cdRuneHaste);
-
-    adjustedCd1 = player.hasCdRune ? adjustedCd1 * cdHasteMultiplier : adjustedCd1;
-    adjustedCd2 = player.hasCdRune ? adjustedCd2 * cdHasteMultiplier : adjustedCd2;
+    adjustedCd1 = adjustedCd1 * cdHasteMultiplier;
+    adjustedCd2 = adjustedCd2 * cdHasteMultiplier;
 
     return { adjustedCd1, adjustedCd2 };
 }

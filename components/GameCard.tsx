@@ -23,12 +23,26 @@ export const GameCard = ({
             <div className='w-[100%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
             <div className={teamNum === 2 ? 'hidden' : 'w-[100%]'}>
                 {team1?.map((player, index) => (
-                    <PlayerCard player={player} key={index} playerIndex={index} gameId={game.gameId} gameClock={minutesSinceStart} />
+                    <PlayerCard
+                        player={player}
+                        key={index}
+                        playerIndex={index}
+                        gameId={game.gameId}
+                        gameClock={minutesSinceStart}
+                        gameMode={game.gameMode}
+                    />
                 ))}
             </div>
             <div className={teamNum === 1 ? 'hidden' : 'w-[100%]'}>
                 {team2?.map((player, index) => (
-                    <PlayerCard player={player} key={index} playerIndex={index + 5} gameId={game.gameId} gameClock={minutesSinceStart} />
+                    <PlayerCard
+                        player={player}
+                        key={index}
+                        playerIndex={index + 5}
+                        gameId={game.gameId}
+                        gameClock={minutesSinceStart}
+                        gameMode={game.gameMode}
+                    />
                 ))}
             </div>
         </div>

@@ -14,6 +14,7 @@ export default async function getMatchSession(
     var championMapping = await getChampionMapping();
 
     var cdRuneId = 8347; // Cosmic Insight perkId
+
     var players = [] as Player[];
     
     activeGame.participants.forEach((element:any) => {
@@ -45,6 +46,7 @@ export default async function getMatchSession(
 
     var game = { 
         //gameId: team_code, 
+        gameMode: activeGame.gameMode,
         gameData: {
             gameStartTime: activeGame.gameStartTime,
             players: players
