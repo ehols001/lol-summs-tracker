@@ -34,3 +34,24 @@ export const cooldownAdjuster = (
 
     return { adjustedCd1, adjustedCd2 };
 }
+
+export const cooldownAdjusterBoots = (
+    cooldown1: number,
+    cooldown2: number,
+    hasCdBoots: boolean,
+) => {
+
+    // 12 haste applied to cooldowns from boots of lucidity
+    const bootHaste = hasCdBoots ? 12 : 0;
+
+    // Formula Riot uses as a multiplier for cooldowns affected by haste
+    const cdHasteMultiplier = 100 / (100 + bootHaste);
+
+    let adjustedCd1 = cooldown1;
+    let adjustedCd2 = cooldown2;
+
+    adjustedCd1 = adjustedCd1 * cdHasteMultiplier;
+    adjustedCd2 = adjustedCd2 * cdHasteMultiplier;
+
+    return { adjustedCd1, adjustedCd2 };
+}

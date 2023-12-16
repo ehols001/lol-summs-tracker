@@ -1,6 +1,7 @@
 'use client'
 
 import { updateGame } from '@/app/api/game-data/updateGame';
+import { cooldownAdjusterBoots } from '@/utils/cooldownAdjuster';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -40,6 +41,7 @@ export const PlayerTiles = ({
     const [summ2Active, setSumm2Active] = useState(false);
     const [timeRemainingOnSumm1, setTimeRemainingOnSumm1] = useState(0);
     const [timeRemainingOnSumm2, setTimeRemainingOnSumm2] = useState(0);
+    const [hasCdBoots, setHasCdBoots] = useState(false);
 
     const championTileAlt = championTile.slice(championTile.lastIndexOf('/') + 1, championTile.lastIndexOf('.'));
     const summ1Alt = summ1.slice(summ1.lastIndexOf('/') + 1, summ1.lastIndexOf('.'));
@@ -67,34 +69,54 @@ export const PlayerTiles = ({
 
     // Sets whichever summ that was clicked to active and updates the time it was clicked in the db
     async function handleSummClick(summNum: number) {
+        // Adjusted cooldowns if player has cooldown boots
+        let {adjustedCd1, adjustedCd2} = cooldownAdjusterBoots(cooldown1, cooldown2, hasCdBoots);
+        
         if (summNum === 1 && !summ1Active) {
+            cooldown1 = adjustedCd1;
             setTimeRemainingOnSumm1(cooldown1 * 1000);
             setSumm1Active(true);
             await updateGame(gameId, playerIndex, summNum);
         }
         else if (summNum === 2 && !summ2Active) {
+            cooldown2 = adjustedCd2;
             setTimeRemainingOnSumm2(cooldown2 * 1000);
             setSumm2Active(true);
             await updateGame(gameId, playerIndex, summNum);
         }
     }
 
+    // Sets whether the player has cooldown boots or not
+    function handleBootsChange() {
+        setHasCdBoots(!hasCdBoots);
+    }
+
     return (
-        <div className='flex justify-evenly w-[100%] py-3'>
-            <Image
-                src={championTile}
-                alt={championTileAlt}
-                width={70}
-                height={70}
-                className='bg-gradient-to-br from-slate-400 to-slate-600 w-1/4 border border-gray-600 rounded-md'
-            />
+        <div className='flex justify-evenly items-center w-[100%] py-3'>
+            <div className='relative bg-gradient-to-br from-slate-400 to-slate-600 border border-gray-600 rounded-md'>
+                <Image
+                    src={championTile}
+                    alt={championTileAlt}
+                    width={75}
+                    height={75}
+                    className='rounded-md'
+                />
+                <Image
+                    src={hasCdBoots ? '/CdBoots.jpg' : '/NoCdBoots.jpg'}
+                    alt='Boots of Lucidity'
+                    width={25}
+                    height={25}
+                    className='absolute bottom-0 left-0 rounded-md hover:cursor-pointer'
+                    onClick={handleBootsChange}
+                />
+            </div>
             <div className='relative bg-gradient-to-br from-slate-400 to-slate-600 w-1/5 h-5/6 my-auto border border-gray-600 rounded-md'>
                 <Image
                     src={summ1}
                     alt={summ1Alt}
                     width={70}
                     height={70}
-                    className='rounded-md'
+                    className='rounded-md hover:cursor-pointer'
                     onClick={() => handleSummClick(1)}
                 />
                 <div className={`${summ1Active ? '' : 'hidden'}`}>
@@ -112,7 +134,7 @@ export const PlayerTiles = ({
                     alt={summ2Alt}
                     width={70}
                     height={70}
-                    className='rounded-md'
+                    className='rounded-md hover:cursor-pointer'
                     onClick={() => handleSummClick(2)}
                 />
                 <div className={`${summ2Active ? '' : 'hidden'}`}>

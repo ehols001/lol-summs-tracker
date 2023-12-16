@@ -13,12 +13,12 @@ export default async function GameLayout({
     params: { team_code: string };
 }) {
 
-    const response = JSON.parse(JSON.stringify(await getGameByGameId(params.team_code))) as Match;
+    const game = JSON.parse(JSON.stringify(await getGameByGameId(params.team_code))) as Match;
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
             <TeamProvider>
-                {response ? <TeamSelector /> : <></> }
+                {game ? <TeamSelector /> : <></> }
                 <Suspense fallback={<Loading />}>
                     {children}
                 </Suspense>

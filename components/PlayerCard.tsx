@@ -17,6 +17,7 @@ export const PlayerCard = ({
     gameMode: string;
 }) => {
 
+    // Currently have to update riotCurrentVersion manually on new version releases
     const championTile = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/img/champion/${player.championImageName}`;
     const summ1 = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/img/spell/${player.summ1ImageName}`;
     const summ2 = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/img/spell/${player.summ2ImageName}`;
