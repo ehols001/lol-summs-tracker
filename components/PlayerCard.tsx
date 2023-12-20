@@ -24,9 +24,8 @@ export const PlayerCard = ({
     const summ2 = `https://ddragon.leagueoflegends.com/cdn/${riotCurrentVersion}/img/spell/${player.summ2ImageName}`;
 
     const { adjustedCd1, adjustedCd2 } = cooldownAdjuster(player, gameClock, gameMode);
-
-    const currCdTime1 = player.timeWhenUsed1 !== null ? player.timeWhenUsed1.seconds + player.timeWhenUsed1.nanoseconds : 0;
-    const currCdTime2 = player.timeWhenUsed2 !== null ? player.timeWhenUsed2.seconds + player.timeWhenUsed2.nanoseconds : 0;
+    const currCdTime1 = player.timeWhenUsed1 !== null ? player.timeWhenUsed1.seconds : 0;
+    const currCdTime2 = player.timeWhenUsed2 !== null ? player.timeWhenUsed2.seconds : 0;
     const cdRemainders = getSummonerTimes(adjustedCd1, adjustedCd2, currCdTime1, currCdTime2);
 
     return (

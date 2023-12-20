@@ -18,7 +18,7 @@ export default function getSummonerTimes(
     const cd1 = adjustedCd1 * 1000;
 
     // The amount of time its been since summ1 was used
-    const timePassedOn1 = currentTime - timeWhenUsed1;
+    const timePassedOn1 = currentTime - timeWhenUsed1 * 1000;
 
     // The amount of time remaining until summ1 is back up
     const timeLeftOn1 = timeWhenUsed1 === 0 ? 0 : cd1 - timePassedOn1;
@@ -26,7 +26,7 @@ export default function getSummonerTimes(
     const cd2 = adjustedCd2 * 1000;
 
     // The amount of time its been since summ2 was used
-    const timePassedOn2 = currentTime - timeWhenUsed2;
+    const timePassedOn2 = currentTime - timeWhenUsed2 * 1000;
 
     // The amount of time remaining until summ2 is back up
     const timeLeftOn2 = timeWhenUsed2 === 0 ? 0 : cd2 - timePassedOn2;

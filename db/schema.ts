@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore"
-
 export interface Player {
     host: boolean,
     summonerName: string,
@@ -9,11 +7,11 @@ export interface Player {
     summ1ImageName: string
     summ1: string,
     cooldown1: number,
-    timeWhenUsed1: Timestamp | null,
+    timeWhenUsed1: any | null,
     summ2ImageName: string,
     summ2: string,
     cooldown2: number,
-    timeWhenUsed2: Timestamp | null,
+    timeWhenUsed2: any | null,
     hasCdRune: boolean
 }
 

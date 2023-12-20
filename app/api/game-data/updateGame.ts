@@ -2,7 +2,7 @@
 
 import { Player } from "@/db/schema";
 import { db } from "@/lib/firebase";
-import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 /**
  * Update a specific game given the gameId (used to updated the timestamp of when summoner spells were used)
@@ -28,12 +28,10 @@ export async function updateGame(
         let players = [] as Player[];
         gameData?.gameData.players.forEach((element: Player, index: number) => {
             if (index === playerIndex) {
-                let currDate = new Date;
-                let currTimeInMs = currDate.getTime();
                 if(summNum === 1) {
-                    element.timeWhenUsed1 = new Timestamp(Math.floor(currTimeInMs / 1000), (currTimeInMs % 1000) * 1000000);
+                    element.timeWhenUsed1 = new Date;
                 } else if(summNum === 2) {
-                    element.timeWhenUsed2 = new Timestamp(currTimeInMs / 1000, (currTimeInMs % 1000) * 1000000);
+                    element.timeWhenUsed2 = new Date;
                 }
             }
             players.push(element);
