@@ -13,7 +13,10 @@ export default async function GameLayout({
     params: { team_code: string };
 }) {
 
-    const game = JSON.parse(JSON.stringify(await getGameByGameId(params.team_code))) as Match;
+    let game = await getGameByGameId(params.team_code) as Match;
+    if(game) {
+        game = JSON.parse(JSON.stringify(game));
+    }
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">

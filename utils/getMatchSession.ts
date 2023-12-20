@@ -4,7 +4,6 @@ import { getSummonerMapping } from '@/app/api/league-data/getSummonerMapping';
 import { Match, Player } from '@/db/schema';
 
 export default async function getMatchSession(
-    //team_code: string,
     summonerName: string,
     tagLine: string,
 ) {
@@ -33,10 +32,12 @@ export default async function getMatchSession(
             summ1: summ1.name,
             summ1ImageName: summ1.image,
             cooldown1: summ1.cooldown,
+            timeWhenUsed1: null,
 
             summ2: summ2.name,
             summ2ImageName: summ2.image,
             cooldown2: summ2.cooldown,
+            timeWhenUsed2: null,
 
             hasCdRune: element.perks.perkIds.includes(cdRuneId) ? true : false
         } as Player;
@@ -44,8 +45,7 @@ export default async function getMatchSession(
         players.push(player);
     });
 
-    var game = { 
-        //gameId: team_code, 
+    var game = {  
         gameMode: activeGame.gameMode,
         gameData: {
             gameStartTime: activeGame.gameStartTime,

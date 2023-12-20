@@ -1,19 +1,23 @@
-import clientPromise from '@/lib/mongodb';
+import { Match } from "@/db/schema";
+import { db } from "@/lib/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 /**
  * Find all games
  * 
- * @returns full game data including gameId, gameData, and the players array for all games
+ * @returns full game data (gameId, gameMode, and gameData including gameStartTime and the players array) for all games
  */
 export async function getAllGames() {
     try {
-        const client = await clientPromise;
-        const db = client.db('GameDB');
+        let games = [] as Match[];
+        const gamesSnapshot = await getDocs(collection(db, 'games'));
+        gamesSnapshot.forEach((game) => {
+            games.push(game.data() as Match);
+        })
 
-        const games = await db.collection('games').find({}).toArray();
         //console.log('Successfully found all games', games);
-
         return games;
+
     } catch (error) {
         console.log('Failed to find all games', error);
     }

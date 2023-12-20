@@ -7,11 +7,11 @@ export interface Player {
     summ1ImageName: string
     summ1: string,
     cooldown1: number,
-    timeWhenUsed1: Date,
+    timeWhenUsed1: Date | null,
     summ2ImageName: string,
     summ2: string,
     cooldown2: number,
-    timeWhenUsed2: Date,
+    timeWhenUsed2: Date | null,
     hasCdRune: boolean
 }
 

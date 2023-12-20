@@ -1,9 +1,11 @@
 'use server'
 
-import clientPromise from '@/lib/mongodb';
+import { Player } from "@/db/schema";
+import { db } from "@/lib/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 /**
- * Update a specific game given the gameId (will primarily be used to updated the timestamp of when summoner spells were used)
+ * Update a specific game given the gameId (used to updated the timestamp of when summoner spells were used)
  * 
  * @param gameId the gameId of the game (not the id of the game)
  * @param playerIndex the index of the player whose summoner spell timer is being updated
@@ -15,26 +17,41 @@ export async function updateGame(
     summNum: number,
 ) {
     try {
-        const client = await clientPromise;
-        const db = client.db('GameDB');
 
         const summToUpdate = summNum === 1 ? 'timeWhenUsed1' : 'timeWhenUsed2';
 
-        await db.collection('games').updateOne(
-            { gameId: gameId },
-            {
-                $set: {
-                    [`gameData.players.${playerIndex}.${summToUpdate}`]: new Date,
+        const gameRef = doc(db, 'games', gameId);
+
+        const gameDoc = await getDoc(gameRef);
+        const gameData = gameDoc.data();
+
+        let players = [] as Player[];
+        gameData?.gameData.players.forEach((element: Player, index: number) => {
+            if (index === playerIndex) {
+                if(summNum === 1) {
+                    element.timeWhenUsed1 = new Date;
+                } else if(summNum === 2) {
+                    element.timeWhenUsed2 = new Date;
                 }
             }
-        );
+            players.push(element);
+        })
 
-        const updatedGame = await db.collection('games').findOne({ gameId: gameId });
-        const updatedPlayer = updatedGame?.gameData.players[playerIndex];
-        
-        summNum === 1
-            ? console.log(`Successfully updated ${updatedPlayer.champion}'s ${updatedPlayer.summ1} in game ${gameId} to time used: ${updatedPlayer.timeWhenUsed1.toTimeString()}`)
-            : console.log(`Successfully updated ${updatedPlayer.champion}'s ${updatedPlayer.summ2} in game ${gameId} to time used: ${updatedPlayer.timeWhenUsed2.toTimeString()}`)
+        const gameObject = {
+            gameId: gameData?.gameId,
+            gameMode: gameData?.gameMode,
+            gameData: {
+                gameStartTime: gameData?.gameData.gameStartTime,
+                players: players,
+            }
+        }
+
+        await setDoc(doc(db, 'games', gameId), gameObject);
+
+        const updatedGame = await getDoc(gameRef);
+        const updatedPlayer = updatedGame.data()?.gameData.players[playerIndex] as Player;
+
+        console.log(`Successfully updated ${updatedPlayer.champion}'s ${summNum === 1 ? updatedPlayer.summ1 : updatedPlayer.summ2} in game ${gameId} to time when used: ${updatedPlayer[summToUpdate]}`);
 
     } catch (error) {
         console.log(`Failed to update game with gameId: ${gameId}`, error);

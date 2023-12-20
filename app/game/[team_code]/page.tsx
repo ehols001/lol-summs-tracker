@@ -9,9 +9,12 @@ export default async function GamePage({
     params: { team_code: string }
 }) {
 
-    const game = JSON.parse(JSON.stringify(await getGameByGameId(params.team_code))) as Match;
+    let game = await getGameByGameId(params.team_code) as Match;
+    if(game) {
+        game = JSON.parse(JSON.stringify(game));
+    }
 
-    return (
+    return ( 
         <>
             {game
                 ?   <GameCard game={game} />
