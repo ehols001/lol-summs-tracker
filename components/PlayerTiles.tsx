@@ -23,24 +23,28 @@ export const PlayerTiles = ({
     championTile,
     summ1,
     cooldown1,
+    cd1TimeLeft,
     summ2,
     cooldown2,
+    cd2TimeLeft,
     playerIndex,
     gameId,
 }: {
     championTile: string;
     summ1: string;
     cooldown1: number;
+    cd1TimeLeft: number;
     summ2: string;
     cooldown2: number;
+    cd2TimeLeft: number;
     playerIndex: number;
     gameId: string;
 }) => {
 
     const [summ1Active, setSumm1Active] = useState(false);
     const [summ2Active, setSumm2Active] = useState(false);
-    const [timeRemainingOnSumm1, setTimeRemainingOnSumm1] = useState(0);
-    const [timeRemainingOnSumm2, setTimeRemainingOnSumm2] = useState(0);
+    const [timeRemainingOnSumm1, setTimeRemainingOnSumm1] = useState(cd1TimeLeft);
+    const [timeRemainingOnSumm2, setTimeRemainingOnSumm2] = useState(cd2TimeLeft);
     const [hasCdBoots, setHasCdBoots] = useState(false);
 
     const championTileAlt = championTile.slice(championTile.lastIndexOf('/') + 1, championTile.lastIndexOf('.'));
@@ -99,6 +103,7 @@ export const PlayerTiles = ({
                     alt={championTileAlt}
                     width={75}
                     height={75}
+                    priority={true}
                     className='rounded-md'
                 />
                 <Image
@@ -116,6 +121,7 @@ export const PlayerTiles = ({
                     alt={summ1Alt}
                     width={70}
                     height={70}
+                    priority={true}
                     className='rounded-md hover:cursor-pointer'
                     onClick={() => handleSummClick(1)}
                 />
@@ -134,6 +140,7 @@ export const PlayerTiles = ({
                     alt={summ2Alt}
                     width={70}
                     height={70}
+                    priority={true}
                     className='rounded-md hover:cursor-pointer'
                     onClick={() => handleSummClick(2)}
                 />

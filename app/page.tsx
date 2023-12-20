@@ -17,12 +17,14 @@ export default function Home() {
                     alt='Summoners'
                     width={299}
                     height={58}
+                    priority={true}
                 />
                 <Image
                     src='/Hub.png'
                     alt='Hub'
                     width={113}
                     height={58}
+                    priority={true}
                 />
             </div>
 

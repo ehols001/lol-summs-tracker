@@ -30,9 +30,12 @@ export const GameCard = ({
                 }
                 if (change.type === 'removed') {
                     console.log('Game removed: ', change.doc.data());
-                    return () => unsubscribe();
                 }
+            }, (error: any) => {
+                console.log("There's been an issue with the snapshot listener: ", error);
             });
+            
+            return () => unsubscribe();
         });
     }, []);
 

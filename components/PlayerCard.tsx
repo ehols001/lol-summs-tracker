@@ -2,6 +2,7 @@ import { Player } from '@/db/schema';
 import { PlayerTiles } from './PlayerTiles';
 import { cooldownAdjuster } from '@/utils/cooldownAdjuster';
 import { riotCurrentVersion } from '@/utils/getRiotCurrentVersion';
+import getSummonerTimes from '@/utils/getSummonerTimes';
 
 export const PlayerCard = ({
     player,
@@ -24,6 +25,10 @@ export const PlayerCard = ({
 
     const { adjustedCd1, adjustedCd2 } = cooldownAdjuster(player, gameClock, gameMode);
 
+    const currCdTime1 = player.timeWhenUsed1 !== null ? player.timeWhenUsed1.seconds + player.timeWhenUsed1.nanoseconds : 0;
+    const currCdTime2 = player.timeWhenUsed2 !== null ? player.timeWhenUsed2.seconds + player.timeWhenUsed2.nanoseconds : 0;
+    const cdRemainders = getSummonerTimes(adjustedCd1, adjustedCd2, currCdTime1, currCdTime2);
+
     return (
         <>
             <PlayerTiles
@@ -34,6 +39,8 @@ export const PlayerCard = ({
                 gameId={gameId}
                 cooldown1={adjustedCd1}
                 cooldown2={adjustedCd2}
+                cd1TimeLeft={cdRemainders.timeLeftOn1}
+                cd2TimeLeft={cdRemainders.timeLeftOn2}
             />
             <div className='last:hidden w-[100%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
         </>
