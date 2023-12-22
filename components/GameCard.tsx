@@ -9,8 +9,10 @@ import { db } from '@/lib/firebase';
 
 export const GameCard = ({
     game,
+    version,
 }: {
     game: Match;
+    version: string;
 }) => {
 
     const [teamNum] = useTeamContext();
@@ -56,7 +58,7 @@ export const GameCard = ({
                         playerIndex={index}
                         gameId={game.gameId}
                         gameClock={minutesSinceStart}
-                        gameMode={game.gameMode}
+                        version={version}
                     />
                 ))}
             </div>
@@ -68,7 +70,7 @@ export const GameCard = ({
                         playerIndex={index + 5}
                         gameId={game.gameId}
                         gameClock={minutesSinceStart}
-                        gameMode={game.gameMode}
+                        version={version}
                     />
                 ))}
             </div>
