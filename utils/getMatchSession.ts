@@ -17,6 +17,10 @@ export default async function getMatchSession(
     var players = [] as Player[];
     
     activeGame.participants.forEach((element:any) => {
+
+        let gameModeHaste = activeGame.gameMode === 'ARAM' ? 70 : 0;
+        let hasCdRune = element.perks.perkIds.includes(cdRuneId) ? true : false;
+
         let champion = championMapping[element.championId];
         let summ1 = summonerMapping[element.spell1Id];
         let summ2 = summonerMapping[element.spell2Id];
@@ -32,14 +36,17 @@ export default async function getMatchSession(
             summ1: summ1.name,
             summ1ImageName: summ1.image,
             cooldown1: summ1.cooldown,
-            timeWhenUsed1: null,
+            timeAvailable1: activeGame.gameStartTime,
 
             summ2: summ2.name,
             summ2ImageName: summ2.image,
             cooldown2: summ2.cooldown,
-            timeWhenUsed2: null,
+            timeAvailable2: activeGame.gameStartTime,
 
-            hasCdRune: element.perks.perkIds.includes(cdRuneId) ? true : false
+            hasCdRune: hasCdRune,
+            hasCdBoots: false,
+            totalHaste: gameModeHaste + (hasCdRune ? 18 : 0),
+            
         } as Player;
 
         players.push(player);
