@@ -31,9 +31,9 @@ export async function updateSumm(
         gameData?.gameData.players.forEach((element: Player, index: number) => {
             if (index === playerIndex) {
                 const { adjustedCd1, adjustedCd2 } = cooldownAdjuster(element, gameClock);
-                if(summNum === 1) {
+                if (summNum === 1) {
                     element.timeAvailable1 = (new Date).getTime() + (adjustedCd1 * 1000);
-                } else if(summNum === 2) {
+                } else if (summNum === 2) {
                     element.timeAvailable2 = (new Date).getTime() + (adjustedCd2 * 1000);
                 }
             }
@@ -85,8 +85,10 @@ export async function updateBoots(
         let players = [] as Player[];
         gameData?.gameData.players.forEach((element: Player, index: number) => {
             if (index === playerIndex) {
-                element.hasCdBoots = !hasCdBoots;
-                element.totalHaste = element.hasCdBoots ? element.totalHaste + 12 : element.totalHaste - 12;
+                if (element.hasCdBoots === hasCdBoots) {
+                    element.hasCdBoots = !hasCdBoots;
+                    element.totalHaste = element.hasCdBoots ? element.totalHaste + 12 : element.totalHaste - 12;
+                }
             }
             players.push(element);
         })
