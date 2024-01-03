@@ -1,7 +1,13 @@
 'use server'
 
+import { cache } from 'react';
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import 'server-only'
+
+export const preload = (gameId: string) => {
+    void getGameByGameId(gameId);
+}
 
 /**
  * Find a specific game given the gameId 
@@ -10,7 +16,7 @@ import { doc, getDoc } from "firebase/firestore";
  * 
  * @returns full game data (gameId, gameMode, and gameData including gameStartTime and the players array)
  */
-export const getGameByGameId = async (gameId: string) => {
+export const getGameByGameId = cache(async (gameId: string) => {
     try {
         const gameRef = doc(db, 'games', gameId);
         const game = await getDoc(gameRef);
@@ -25,4 +31,4 @@ export const getGameByGameId = async (gameId: string) => {
     } catch (error) {
         console.log(`Failed to find game with the gameId: ${gameId}`, error);
     }
-};
+});

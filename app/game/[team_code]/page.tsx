@@ -1,4 +1,4 @@
-import { getGameByGameId } from '@/app/api/game-data/getGame';
+import { getGameByGameId, preload } from '@/app/api/game-data/getGame';
 import { Match } from '@/db/schema';
 import { GameCard } from '@/components/GameCard';
 import JoinError from './join-error';
@@ -12,6 +12,7 @@ export default async function GamePage({
 
     const riotCurrentVersion = await getLatestVersion();
 
+    preload(params.team_code);
     let game = await getGameByGameId(params.team_code) as Match;
     if(game) {
         game = JSON.parse(JSON.stringify(game));
