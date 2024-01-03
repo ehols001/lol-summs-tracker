@@ -1,10 +1,11 @@
 'use client'
 
 import { updateBoots, updateSumm } from '@/app/api/game-data/updateGame';
-import { Player } from '@/db/schema';
+import { Match, Player } from '@/db/schema';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { SummTimers } from './SummTimers';
+import { getGameByGameId } from '@/app/api/game-data/getGame';
 
 export const PlayerTiles = ({
     championTile,
@@ -24,8 +25,8 @@ export const PlayerTiles = ({
     gameClock: number;
 }) => {
 
-    const [timeRemainingOnSumm1, setTimeRemainingOnSumm1] = useState(player.timeAvailable1 <= (new Date).getTime() ? 0 : player.timeAvailable1 - (new Date).getTime());
-    const [timeRemainingOnSumm2, setTimeRemainingOnSumm2] = useState(player.timeAvailable2 <= (new Date).getTime() ? 0 : player.timeAvailable2 - (new Date).getTime());
+    const [timeRemainingOnSumm1, setTimeRemainingOnSumm1] = useState(0);
+    const [timeRemainingOnSumm2, setTimeRemainingOnSumm2] = useState(0);
     const [hasCdBoots, setHasCdBoots] = useState(player.hasCdBoots);
 
     const championTileAlt = championTile.slice(championTile.lastIndexOf('/') + 1, championTile.lastIndexOf('.'));
@@ -46,15 +47,41 @@ export const PlayerTiles = ({
         return () => clearInterval(intervalId);
     }, [timeRemainingOnSumm1, timeRemainingOnSumm2]);
 
+    // keeps summs up to date on page refresh
+    useEffect(() => {
+        setTimeRemainingOnSumm1(player.timeAvailable1 - (new Date).getTime());
+        setTimeRemainingOnSumm2(player.timeAvailable2 - (new Date).getTime());
+    }, []);
+
     // Sets whichever summ that was clicked to active and updates the time it was clicked in the db
     async function handleSummClick(summNum: number) {
         if (summNum === 1 && timeRemainingOnSumm1 <= 0) {
-            let timeUntil = await updateSumm(gameId, gameClock, playerIndex, summNum) as number;
-            setTimeRemainingOnSumm1(timeUntil - (new Date).getTime());
+            let timer1 = await updateSumm(gameId, gameClock, playerIndex, summNum) as number;
+
+            let game = await getGameByGameId(gameId) as Match;
+            let updatedPlayer = game.gameData.players.find((currPlayer) => {
+                if(currPlayer.timeAvailable1 === timer1) {
+                    player.timeAvailable1 = currPlayer.timeAvailable1;
+                    return currPlayer;
+                }
+            });
+
+            if(updatedPlayer)
+                setTimeRemainingOnSumm1(player.timeAvailable1 - (new Date).getTime());
         }
         else if (summNum === 2 && timeRemainingOnSumm2 <= 0) {
-            let timeUntil = await updateSumm(gameId, gameClock, playerIndex, summNum) as number;
-            setTimeRemainingOnSumm2(timeUntil - (new Date).getTime());
+            let timer2 = await updateSumm(gameId, gameClock, playerIndex, summNum) as number;
+            
+            let game = await getGameByGameId(gameId) as Match;
+            let updatedPlayer = game.gameData.players.find((currPlayer) => {
+                if(currPlayer.timeAvailable2 === timer2) {
+                    player.timeAvailable2 = currPlayer.timeAvailable2;
+                    return currPlayer;
+                }
+            });
+
+            if(updatedPlayer)
+                setTimeRemainingOnSumm2(player.timeAvailable2 - (new Date).getTime());
         }
     }
 
