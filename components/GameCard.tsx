@@ -49,7 +49,6 @@ export const GameCard = ({
 
     return (
         <div className='flex flex-col justify-center items-center w-[320px]'>
-            <div className='w-[100%] h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent'></div>
             <div className={teamNum === 2 ? 'hidden' : 'w-[100%]'}>
                 {team1?.map((player, index) => (
                     <PlayerCard

@@ -11,21 +11,21 @@ export default function Home() {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
 
-            <div className='flex flex-col items-center justify-center w-[299px] m-12 -mt-12'>
+            <div className='flex flex-col items-center justify-center w-[325px] m-12 -mt-12'>
                 <Image
-                    src='/Summoners.png'
-                    alt='Summoners'
-                    width={299}
-                    height={58}
+                    src='/SummonersHub.png'
+                    alt='Summoners Hub Logo'
+                    width={500}
+                    height={280}
                     priority={true}
                 />
-                <Image
+                {/* <Image
                     src='/Hub.png'
                     alt='Hub'
                     width={113}
                     height={58}
                     priority={true}
-                />
+                /> */}
             </div>
 
             <div className='flex flex-col items-center justify-center'>
