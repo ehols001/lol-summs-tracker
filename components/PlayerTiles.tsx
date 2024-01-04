@@ -70,9 +70,8 @@ export const PlayerTiles = ({
                         //console.log(`${currPlayer.champion} summ timer 2: `, currPlayer.timeAvailable2);
                         setTimeRemainingOnSumm2(currPlayer.timeAvailable2 - (new Date).getTime());
                     }
-                    if(player.hasCdBoots !== currPlayer.hasCdBoots) {
-                        setHasCdBoots(currPlayer.hasCdBoots);
-                    }
+                    //console.log(`${currPlayer.champion} boot status: `, currPlayer.hasCdBoots);
+                    setHasCdBoots(currPlayer.hasCdBoots);
                 }
             }, (error: any) => {
                 console.log("There's been an issue with the snapshot listener: ", error);
