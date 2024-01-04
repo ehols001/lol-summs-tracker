@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { SummTimers } from './SummTimers';
 import { getGameByGameId } from '@/app/api/game-data/getGame';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 export const PlayerTiles = ({
     championTile,
@@ -51,6 +53,30 @@ export const PlayerTiles = ({
     useEffect(() => {
         setTimeRemainingOnSumm1(player.timeAvailable1 - (new Date).getTime());
         setTimeRemainingOnSumm2(player.timeAvailable2 - (new Date).getTime());
+    }, []);
+
+    useEffect(() => {
+        const q = query(collection(db, 'games'), where('gameId', '==', gameId));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === 'modified') {
+                    let upToDateGame = change.doc.data() as Match;
+                    let currPlayer = upToDateGame.gameData.players[playerIndex];
+                    if(player.timeAvailable1 !== currPlayer.timeAvailable1) {
+                        console.log(`${currPlayer.champion} summ timer 1: `, currPlayer.timeAvailable1);
+                        setTimeRemainingOnSumm1(currPlayer.timeAvailable1 - (new Date).getTime());
+                    }
+                    if(player.timeAvailable2 !== currPlayer.timeAvailable2) {
+                        console.log(`${currPlayer.champion} summ timer 2: `, currPlayer.timeAvailable2);
+                        setTimeRemainingOnSumm2(currPlayer.timeAvailable2 - (new Date).getTime());
+                    }
+                }
+            }, (error: any) => {
+                console.log("There's been an issue with the snapshot listener: ", error);
+            });
+            
+            return () => unsubscribe();
+        });
     }, []);
 
     // Sets whichever summ that was clicked to active and updates the time it was clicked in the db

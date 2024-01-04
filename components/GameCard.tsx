@@ -3,9 +3,9 @@
 import { Match, Player } from '@/db/schema';
 import { PlayerCard } from './PlayerCard';
 import { useTeamContext } from './TeamProvider';
-import { useEffect } from 'react';
+/* import { useEffect } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db } from '@/lib/firebase'; */
 
 export const GameCard = ({
     game,
@@ -17,7 +17,7 @@ export const GameCard = ({
 
     const [teamNum] = useTeamContext();
 
-    let upToDateGame = game;
+    /* let upToDateGame = game;
 
     useEffect(() => {
         const q = query(collection(db, 'games'), where('gameId', '==', game.gameId));
@@ -39,13 +39,13 @@ export const GameCard = ({
             
             return () => unsubscribe();
         });
-    }, []);
+    }, []); */
 
     let timeSinceGameStart = Date.now() - game?.gameData?.gameStartTime;
     let minutesSinceStart = Math.floor(timeSinceGameStart / 60000);
 
-    let team1 = upToDateGame?.gameData?.players?.filter(p => p.teamId === 100) as Player[];
-    let team2 = upToDateGame?.gameData?.players?.filter(p => p.teamId === 200) as Player[];
+    let team1 = game?.gameData?.players?.filter(p => p.teamId === 100) as Player[];
+    let team2 = game?.gameData?.players?.filter(p => p.teamId === 200) as Player[];
 
     return (
         <div className='flex flex-col justify-center items-center w-[320px]'>
