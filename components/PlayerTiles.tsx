@@ -5,7 +5,6 @@ import { Match, Player } from '@/db/schema';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { SummTimers } from './SummTimers';
-import { getGameByGameId } from '@/app/api/game-data/getGame';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
@@ -49,13 +48,13 @@ export const PlayerTiles = ({
         return () => clearInterval(intervalId);
     }, [timeRemainingOnSumm1, timeRemainingOnSumm2]);
 
-    // keeps summs up to date on page refresh
+    // Keeps summs up to date on page refresh
     useEffect(() => {
         setTimeRemainingOnSumm1(player.timeAvailable1 - (new Date).getTime());
         setTimeRemainingOnSumm2(player.timeAvailable2 - (new Date).getTime());
     }, []);
 
-    // Listen for changes between firestore snapshots and update time remaining on summs if there's a change
+    // Listen for changes between firestore snapshots and updates time remaining on summs or the players boot status if there's a change
     useEffect(() => {
         const q = query(collection(db, 'games'), where('gameId', '==', gameId));
         const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -64,12 +63,15 @@ export const PlayerTiles = ({
                     let upToDateGame = change.doc.data() as Match;
                     let currPlayer = upToDateGame.gameData.players[playerIndex];
                     if(player.timeAvailable1 !== currPlayer.timeAvailable1) {
-                        console.log(`${currPlayer.champion} summ timer 1: `, currPlayer.timeAvailable1);
+                        //console.log(`${currPlayer.champion} summ timer 1: `, currPlayer.timeAvailable1);
                         setTimeRemainingOnSumm1(currPlayer.timeAvailable1 - (new Date).getTime());
                     }
                     if(player.timeAvailable2 !== currPlayer.timeAvailable2) {
-                        console.log(`${currPlayer.champion} summ timer 2: `, currPlayer.timeAvailable2);
+                        //console.log(`${currPlayer.champion} summ timer 2: `, currPlayer.timeAvailable2);
                         setTimeRemainingOnSumm2(currPlayer.timeAvailable2 - (new Date).getTime());
+                    }
+                    if(player.hasCdBoots !== currPlayer.hasCdBoots) {
+                        setHasCdBoots(currPlayer.hasCdBoots);
                     }
                 }
             }, (error: any) => {
@@ -80,7 +82,7 @@ export const PlayerTiles = ({
         });
     }, []);
 
-    // Sets whichever summ that was clicked to active and updates the time it was clicked in the db
+    // Updates the db with the time the summ will be available again for whichever summ was clicked
     async function handleSummClick(summNum: number) {
         if (summNum === 1 && timeRemainingOnSumm1 <= 0) {
             await updateSumm(gameId, gameClock, playerIndex, summNum);
@@ -90,10 +92,9 @@ export const PlayerTiles = ({
         }
     }
 
-    // Sets whether the player has cooldown boots or not and updates the db
+    // Updates the db to whether the player has cooldown boots or not
     async function handleBootsChange() {
-        let bootsStatus = await updateBoots(gameId, playerIndex, hasCdBoots) as boolean;
-        setHasCdBoots(bootsStatus);
+        await updateBoots(gameId, playerIndex, hasCdBoots);
     }
 
     return (

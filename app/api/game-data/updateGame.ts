@@ -109,7 +109,7 @@ export async function updateBoots(
 
         console.log(`Successfully updated ${updatedPlayer.champion}'s hasCdBoots field in game ${gameId} to ${updatedPlayer['hasCdBoots']} and totalHaste to ${updatedPlayer.totalHaste}`);
 
-        return updatedPlayer.hasCdBoots;
+        //return updatedPlayer.hasCdBoots;
 
     } catch (error) {
         console.log(`Failed to update game with gameId: ${gameId}`, error);
