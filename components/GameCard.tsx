@@ -16,15 +16,18 @@ export const GameCard = ({
     const [teamNum, setTeamNum] = useTeamContext();
 
     // Used to allow swiping between team tabs
-    const bind = useDrag(({ swipe: [swipeX] }) => {
-        if(swipeX > 0) {
-            // Swipe right
-            setTeamNum((prev) => (prev === 1 ? 2 : 1));
-        } else if(swipeX < 0) {
-            // Swipe left
-            setTeamNum((prev) => (prev === 2 ? 1 : 2));
-        }
-    });
+    const bind = useDrag(
+        ({ swipe: [swipeX], cancel }) => {
+            if(swipeX > 50) {
+                setTeamNum((prev) => (prev === 1 ? 2 : 1)); // Swipe right
+                cancel(); // Cancel gesture prevents unintentional drags
+            } else if(swipeX < -50) {
+                setTeamNum((prev) => (prev === 2 ? 1 : 2)); // Swipe left
+                cancel(); // Cancel gesture prevents unintentional drags
+            }
+        }, 
+        { eventOptions: { passive: false} } // Enables touch events
+    );
 
     let timeSinceGameStart = Date.now() - game?.gameData?.gameStartTime;
     let minutesSinceStart = Math.floor(timeSinceGameStart / 60000);
