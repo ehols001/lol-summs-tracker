@@ -3,7 +3,7 @@
 import { Match, Player } from '@/db/schema';
 import { PlayerCard } from './PlayerCard';
 import { useTeamContext } from './TeamProvider';
-import { useDrag } from '@use-gesture/react';
+import { useState } from 'react';
 
 export const GameCard = ({
     game,
@@ -14,20 +14,24 @@ export const GameCard = ({
 }) => {
 
     const [teamNum, setTeamNum] = useTeamContext();
+    const [startX, setStartX] = useState<number | null>(null);
 
-    // Used to allow swiping between team tabs
-    const bind = useDrag(
-        ({ swipe: [swipeX], cancel }) => {
-            if(swipeX > 50) {
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if(startX !== null) {
+            const deltaX = e.touches[0].clientX - startX;
+            if(deltaX > 50) {
                 setTeamNum((prev) => (prev === 1 ? 2 : 1)); // Swipe right
-                cancel(); // Cancel gesture prevents unintentional drags
-            } else if(swipeX < -50) {
+                setStartX(null);
+            } else if(deltaX < -50) {
                 setTeamNum((prev) => (prev === 2 ? 1 : 2)); // Swipe left
-                cancel(); // Cancel gesture prevents unintentional drags
+                setStartX(null);
             }
-        }, 
-        { eventOptions: { passive: false} } // Enables touch events
-    );
+        }
+    };
 
     let timeSinceGameStart = Date.now() - game?.gameData?.gameStartTime;
     let minutesSinceStart = Math.floor(timeSinceGameStart / 60000);
@@ -36,7 +40,13 @@ export const GameCard = ({
     let team2 = game?.gameData?.players?.filter(p => p.teamId === 200) as Player[];
 
     return (
-        <div className='flex flex-col justify-center items-center w-[320px]' {...bind()}>
+        <div
+            className='flex flex-col justify-center items-center w-[320px]'
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={() => setStartX(null)}
+            onTouchCancel={() => setStartX(null)}
+        >
             <div className={teamNum === 2 ? 'hidden' : 'w-[100%]'}>
                 {team1?.map((player, index) => (
                     <PlayerCard
