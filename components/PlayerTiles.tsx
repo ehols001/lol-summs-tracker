@@ -55,6 +55,7 @@ export const PlayerTiles = ({
         setTimeRemainingOnSumm2(player.timeAvailable2 - (new Date).getTime());
     }, []);
 
+    // Listen for changes between firestore snapshots and update time remaining on summs if there's a change
     useEffect(() => {
         const q = query(collection(db, 'games'), where('gameId', '==', gameId));
         const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -82,32 +83,10 @@ export const PlayerTiles = ({
     // Sets whichever summ that was clicked to active and updates the time it was clicked in the db
     async function handleSummClick(summNum: number) {
         if (summNum === 1 && timeRemainingOnSumm1 <= 0) {
-            let timer1 = await updateSumm(gameId, gameClock, playerIndex, summNum) as number;
-
-            let game = await getGameByGameId(gameId) as Match;
-            let updatedPlayer = game.gameData.players.find((currPlayer) => {
-                if(currPlayer.timeAvailable1 === timer1) {
-                    player.timeAvailable1 = currPlayer.timeAvailable1;
-                    return currPlayer;
-                }
-            });
-
-            if(updatedPlayer)
-                setTimeRemainingOnSumm1(player.timeAvailable1 - (new Date).getTime());
+            await updateSumm(gameId, gameClock, playerIndex, summNum);
         }
         else if (summNum === 2 && timeRemainingOnSumm2 <= 0) {
-            let timer2 = await updateSumm(gameId, gameClock, playerIndex, summNum) as number;
-            
-            let game = await getGameByGameId(gameId) as Match;
-            let updatedPlayer = game.gameData.players.find((currPlayer) => {
-                if(currPlayer.timeAvailable2 === timer2) {
-                    player.timeAvailable2 = currPlayer.timeAvailable2;
-                    return currPlayer;
-                }
-            });
-
-            if(updatedPlayer)
-                setTimeRemainingOnSumm2(player.timeAvailable2 - (new Date).getTime());
+            await updateSumm(gameId, gameClock, playerIndex, summNum);
         }
     }
 

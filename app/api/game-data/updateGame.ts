@@ -56,7 +56,7 @@ export async function updateSumm(
 
         console.log(`Successfully updated ${updatedPlayer.champion}'s ${summNum === 1 ? updatedPlayer.summ1 : updatedPlayer.summ2} in game ${gameId} to time when available: ${updatedPlayer[summToUpdate]}`);
 
-        return summNum === 1 ? updatedPlayer.timeAvailable1 : updatedPlayer.timeAvailable2;
+        //return summNum === 1 ? updatedPlayer.timeAvailable1 : updatedPlayer.timeAvailable2;
 
     } catch (error) {
         console.log(`Failed to update game with gameId: ${gameId}`, error);
