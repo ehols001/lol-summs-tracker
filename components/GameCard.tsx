@@ -3,6 +3,7 @@
 import { Match, Player } from '@/db/schema';
 import { PlayerCard } from './PlayerCard';
 import { useTeamContext } from './TeamProvider';
+import { useDrag } from '@use-gesture/react';
 
 export const GameCard = ({
     game,
@@ -12,7 +13,18 @@ export const GameCard = ({
     version: string;
 }) => {
 
-    const [teamNum] = useTeamContext();
+    const [teamNum, setTeamNum] = useTeamContext();
+
+    // Used to allow swiping between team tabs
+    const bind = useDrag(({ swipe: [swipeX] }) => {
+        if(swipeX > 0) {
+            // Swipe right
+            setTeamNum((prev) => (prev === 1 ? 2 : 1));
+        } else if(swipeX < 0) {
+            // Swipe left
+            setTeamNum((prev) => (prev === 2 ? 1 : 2));
+        }
+    });
 
     let timeSinceGameStart = Date.now() - game?.gameData?.gameStartTime;
     let minutesSinceStart = Math.floor(timeSinceGameStart / 60000);
@@ -21,7 +33,7 @@ export const GameCard = ({
     let team2 = game?.gameData?.players?.filter(p => p.teamId === 200) as Player[];
 
     return (
-        <div className='flex flex-col justify-center items-center w-[320px]'>
+        <div className='flex flex-col justify-center items-center w-[320px]' {...bind()}>
             <div className={teamNum === 2 ? 'hidden' : 'w-[100%]'}>
                 {team1?.map((player, index) => (
                     <PlayerCard
