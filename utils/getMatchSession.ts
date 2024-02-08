@@ -1,6 +1,7 @@
 import { getActiveGame } from '@/app/api/league-data/getActiveGame';
 import { getChampionMapping } from '@/app/api/league-data/getChampionMapping';
 import { getSummonerMapping } from '@/app/api/league-data/getSummonerMapping';
+import { getCdRuneData } from '@/app/api/league-data/getCdRuneData';
 import { Match, Player } from '@/db/schema';
 
 export default async function getMatchSession(
@@ -12,7 +13,8 @@ export default async function getMatchSession(
     var summonerMapping = await getSummonerMapping();
     var championMapping = await getChampionMapping();
 
-    var cdRuneId = 8347; // Cosmic Insight perkId
+    // Cd Rune perkId currently is 8347
+    var cdRuneId = await getCdRuneData();
 
     var players = [] as Player[];
     
