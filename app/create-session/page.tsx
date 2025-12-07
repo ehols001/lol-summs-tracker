@@ -52,7 +52,7 @@ export default async function CreateSession({
     game.gameId = await handleGameCode();
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-24">
+        <div className="flex min-h-screen flex-col items-center justify-center">
             <TeamCodeBox game={game} />
         </div>
     )

@@ -14,7 +14,7 @@ export default function Error({
     }, [error]);
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-24">
+        <div className="flex min-h-screen flex-col items-center justify-center">
             <div className='flex flex-col items-center justify-center'>
                 <p>Oops! We're unable to find the game you're looking for.</p>
                 <Link

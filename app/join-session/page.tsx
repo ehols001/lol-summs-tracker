@@ -8,7 +8,7 @@ export default function JoinSession() {
     const [team_code, setTeamCode] = useState('');
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-24">
+        <div className="flex min-h-screen flex-col items-center justify-center">
             <div className='flex flex-col justify-evenly items-center w-[320px] h-[175px]'>
                 <div className='text-white font-bold'>
                     <p>Enter Your Team's Game Code</p>

@@ -41,7 +41,7 @@ export const GameCard = ({
 
     return (
         <div
-            className='flex flex-col justify-center items-center w-[320px]'
+            className='flex flex-col justify-center items-center w-full max-w-[320px] px-4'
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={() => setStartX(null)}
