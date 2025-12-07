@@ -20,6 +20,8 @@ export default async function getMatchSession(
     
     activeGame.participants.forEach((element:any) => {
 
+        let playerName = element.riotId.substring(0, element.riotId.indexOf('#'));
+
         let gameModeHaste = activeGame.gameMode === 'ARAM' ? 70 : 0;
         let hasCdRune = element.perks.perkIds.includes(cdRuneId) ? true : false;
 
@@ -31,8 +33,8 @@ export default async function getMatchSession(
             champion: champion.name,
             championImageName: champion.image,
 
-            host: (summonerName.toLowerCase() === element.summonerName.toLowerCase()) ? true : false,
-            summonerName: element.summonerName,
+            host: (summonerName.toLowerCase() === playerName.toLowerCase()) ? true : false,
+            summonerName: playerName.trim(),
             teamId: element.teamId,
 
             summ1: summ1.name,
