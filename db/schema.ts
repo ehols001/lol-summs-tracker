@@ -23,5 +23,6 @@ export interface Match {
     gameData: {
         gameStartTime: number,
         players: Player[]
-    }
+    },
+    lastUpdateTime?: number
 }

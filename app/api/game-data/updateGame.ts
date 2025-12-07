@@ -3,7 +3,7 @@
 import { Player } from "@/db/schema";
 import { db } from "@/lib/firebase";
 import { cooldownAdjuster } from "@/utils/cooldownAdjuster";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
 /**
  * Update a specific game given the gameId (used to updated the timestamp of when summoner spells were used)
@@ -24,6 +24,13 @@ export async function updateSumm(
 
         const gameRef = doc(db, 'games', gameId);
 
+        // First write with server timestamp to get the server's current time
+        await setDoc(gameRef, { lastUpdateTime: serverTimestamp() }, { merge: true });
+
+        // Read back to get the actual server timestamp
+        const timestampDoc = await getDoc(gameRef);
+        const serverTime = timestampDoc.data()?.lastUpdateTime?.toMillis() || Date.now();
+
         const gameDoc = await getDoc(gameRef);
         const gameData = gameDoc.data();
 
@@ -32,9 +39,9 @@ export async function updateSumm(
             if (index === playerIndex) {
                 const { adjustedCd1, adjustedCd2 } = cooldownAdjuster(element, gameClock);
                 if (summNum === 1) {
-                    element.timeAvailable1 = (new Date).getTime() + (adjustedCd1 * 1000);
+                    element.timeAvailable1 = serverTime + (adjustedCd1 * 1000);
                 } else if (summNum === 2) {
-                    element.timeAvailable2 = (new Date).getTime() + (adjustedCd2 * 1000);
+                    element.timeAvailable2 = serverTime + (adjustedCd2 * 1000);
                 }
             }
             players.push(element);
@@ -46,7 +53,8 @@ export async function updateSumm(
             gameData: {
                 gameStartTime: gameData?.gameData.gameStartTime,
                 players: players,
-            }
+            },
+            lastUpdateTime: serverTimestamp()
         }
 
         await setDoc(doc(db, 'games', gameId), gameObject);
